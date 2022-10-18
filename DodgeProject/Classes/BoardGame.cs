@@ -31,7 +31,8 @@ namespace DodgeProject.Model
             //יש להבין איזה גבולות לשים לאויב במספר האקראי
             for (int i = 0; i < ENEMIES_COUNT; i++)
             {
-                enemies[i] = new Enemy(rnd.Next(50,500) , rnd.Next(50, 500), 30 ,30);
+                enemies[i] = new Enemy(rnd.Next(1,width) , rnd.Next(1, height), 30 ,30);
+                enemies[i].Index = i;
             }
 
             //להבין איזה מספרים כדאי ולהתאים לגבולות
@@ -54,7 +55,10 @@ namespace DodgeProject.Model
 
             for (int i = 0; i < enemies.Length; i++)
             {
-                if(enemy.Index != i && enemies[i].overlapRectangles(enemy) && !(enemy.overlapRectangles(user) || enemies[i].overlapRectangles(user)))
+                if (enemy.Index == i)
+                    return false;
+
+                if(enemy.overlapRectangles(enemies[i]) && !(enemy.overlapRectangles(user) || enemies[i].overlapRectangles(user)))
                 {
                     return true;
                 }
@@ -69,6 +73,8 @@ namespace DodgeProject.Model
 
         public void MakeMove(String dir)
         {
+
+
             if(isGameRunning)
             {
                 switch (dir)
@@ -100,6 +106,10 @@ namespace DodgeProject.Model
                         else
                             user.X = 0;
                         break;
+                    case "Space":
+                        user.X = rnd.Next(1, this.width);
+                        user.Y = rnd.Next(1, this.height);
+                        break;
                 }
             }
             
@@ -130,7 +140,7 @@ namespace DodgeProject.Model
 
         public void MakeEnemyMove(Enemy enemy)
         {
-            enemy.Speed = 1;//דריסה רק כדי לבדוק את המהירויות
+            //enemy.Speed = 1;//דריסה רק כדי לבדוק את המהירויות
 
 
             if (enemy.X > user.X)
@@ -158,12 +168,16 @@ namespace DodgeProject.Model
         {
             for (int i = 0; i < enemies.Length; i++)
             {
-                
-                if ( enemies[i].overlapRectangles(user))
+                if (enemies[i].overlapRectangles(user))
                     //אם יהיה שדרוג למספר חיים שיש לשחקן כאן המקום להויד בערך
                     return true;
             }
             return false;
+        }
+
+        public bool IsGameOver()
+        {
+            return true;
         }
     }
 }

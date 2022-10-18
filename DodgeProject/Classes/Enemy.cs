@@ -13,7 +13,7 @@ namespace DodgeProject
         public Enemy(double x, double y, int height, int width) : base(x, y, height, width)
         {
             Random rnd = new Random();
-            this.Speed = rnd.Next(5,11);
+            this.Speed = rnd.Next(1,3);
             this.ImgUrl = "ms-appx:///Assets/goast.png";
         }
 

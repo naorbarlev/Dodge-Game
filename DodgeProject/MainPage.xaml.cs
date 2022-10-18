@@ -12,6 +12,7 @@ using System.Diagnostics;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.Foundation;
+using Windows.UI;
 
 namespace DodgeProject
 {
@@ -56,17 +57,10 @@ namespace DodgeProject
             for (int i = 0; i < boardGame.enemies.Length; i++)
             {
                 enemiesRectangles[i] = CreateEnemy(boardGame.enemies[i]);
-                boardGame.enemies[i].Index = i;
             }
         }
 
-        private void createTimer(int TIMEINTERVAL)
-        {
-            timer = new DispatcherTimer();
-            timer.Interval = new System.TimeSpan(0, 0, 0, 0, TIMEINTERVAL);
-
-            timer.Start();
-        }
+       
 
         //מייצר משתמש שניתן לשים על הקנבאס עפ הנתונים מהמחלקה
         public Rectangle CreateUserPiece(UserPiece userPiece)
@@ -133,7 +127,12 @@ namespace DodgeProject
         private void TimerTick(object sender, object e)
         {
             EnemisMove();
-
+            if(boardGame.userCollision())
+            {
+                timer.Stop();
+                
+            }
+               
             for (int i = 0; i < boardGame.enemies.Length; i++)
             {
 
@@ -146,13 +145,20 @@ namespace DodgeProject
             //בדיקת התנגשות עם השחקן
             //מעבר בלולאה על התנגשות אובים
             //בדיקת ניצחון או הפסד
+
+            if(boardGame.IsWin())
+            {
+
+            }
+            if (boardGame.IsGameOver())
+            {
+
+            }
            
            
         }
         private void EnemisMove()
         {
-            
-
             for (int i = 0; i < boardGame.enemies.Length; i++)
             {
                 boardGame.MakeEnemyMove(boardGame.enemies[i]);
@@ -161,7 +167,13 @@ namespace DodgeProject
             }
         }
 
-        
+        private void createTimer(int TIMEINTERVAL)
+        {
+            timer = new DispatcherTimer();
+            timer.Interval = new System.TimeSpan(0, 0, 0, 0, TIMEINTERVAL);
+            timer.Start();
+        }
+      
 
     }
 }

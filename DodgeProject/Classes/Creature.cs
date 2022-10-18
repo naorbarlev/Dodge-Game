@@ -65,16 +65,11 @@ namespace DodgeProject
         }
 
         public bool overlapRectangles(Creature creature)
-
-        /*I am representing 2 rectangles using two points for the rectangle is (a,b) (c,b) (a,d) (c,d))*/
         {
-            //if (this.life <= 0 || gp1.life <= 0)
-            //{
-            //    return false;
-            //}
+           
             /*                     a      b              c                        d              */
             double[] thisRec = { this.X, this.Y, this.X + this.width, this.Y + this.height};
-            /*                     a      b              c                        d              */
+            /*                     a                b              c                        d              */
             double[] otherRec = { creature.X, creature.Y, creature.X + creature.width, creature.Y + creature.height};
 
             /*Top left*/
