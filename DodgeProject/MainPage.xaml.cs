@@ -24,30 +24,28 @@ namespace DodgeProject
         private Rect windowRect;
         private Rectangle userRect;
         private Rectangle[] enemiesRectangles;
-        private DispatcherTimer timer;
-        private const int TIMEINTERVAL = 10;
+        private DispatcherTimer onGameTimer;
+        private const int ON_GAME_TIMER = 10;
+        private bool isGameRunning = false;
 
 
-
+        
 
         public MainPage()
         {
             this.InitializeComponent();
 
-
             startGame();
-            createTimer(TIMEINTERVAL);
-
-
-
+            createTimer(ON_GAME_TIMER);
 
             Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
-            timer.Tick += TimerTick;
+            onGameTimer.Tick += onGameTimer_Tick;
 
         }
 
         public void startGame()
         {
+
             windowRect = ApplicationView.GetForCurrentView().VisibleBounds;
 
             boardGame = new BoardGame((int)windowRect.Height, (int)windowRect.Width);
@@ -127,8 +125,14 @@ namespace DodgeProject
             Canvas.SetTop(userRect, boardGame.user.Y);
         }
 
-        private void TimerTick(object sender, object e)
+        private void onGameTimer_Tick(object sender, object e)
         {
+            if(isGameRunning == false)
+            {
+                myMessageDilaog
+                System.Threading.Thread.Sleep(3000);
+                isGameRunning = true;
+            }
             EnemisMove();
             boardGame.userCollision();
             for (int i = 0; i < boardGame.enemies.Length; i++)
@@ -142,10 +146,6 @@ namespace DodgeProject
             }
 
             lifesCountTxt.Text = $"Life: {boardGame.user.Life}";
-            //בדיקת התנגשות עם השחקן
-            //מעבר בלולאה על התנגשות אובים
-            //בדיקת ניצחון או הפסד
-
 
             if (boardGame.user.Life <= 0)
             {
@@ -155,10 +155,9 @@ namespace DodgeProject
             {
                 win();
             }
-          
-           
-           
         }
+
+
         private void EnemisMove()
         {
             for (int i = 0; i < boardGame.enemies.Length; i++)
@@ -169,36 +168,30 @@ namespace DodgeProject
             }
         }
 
-        private void createTimer(int TIMEINTERVAL)
+        private void createTimer(int OnGame)
         {
-            timer = new DispatcherTimer();
-            timer.Interval = new System.TimeSpan(0, 0, 0, 0, TIMEINTERVAL);
-            timer.Start();
+            onGameTimer = new DispatcherTimer();
+            onGameTimer.Interval = new System.TimeSpan(0, 0, 0, 0, OnGame);
+            onGameTimer.Start();
         }
 
         private void win()
         {
-            timer.Stop();
-            string message = "You won try again!";
-
-            // Initialize a new MessageDialog instance
-            MessageDialog messageDialog = new MessageDialog(message, "lost");
-
-            // Display the message dialog
-            messageDialog.ShowAsync();
+            onGameTimer.Stop();
+            myMessageDilaog("You won try again!");
         }
         private void lost()
         {
-            timer.Stop();
-            string message = "You lost try again!";
+            onGameTimer.Stop();
+            myMessageDilaog("You lost try again!");
+        }
 
-            // Initialize a new MessageDialog instance
-            MessageDialog messageDialog = new MessageDialog(message, "lost");
-
-            // Display the message dialog
+        public void myMessageDilaog(string msg)
+        {
+            MessageDialog messageDialog = new MessageDialog(msg, "Lost");
             messageDialog.ShowAsync();
         }
 
-      
+        
     }
 }

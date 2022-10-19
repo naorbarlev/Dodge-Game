@@ -72,6 +72,7 @@ namespace DodgeProject.Model
 
                 if(enemy.overlapRectangles(enemies[i]) && !(enemy.overlapRectangles(user) || enemies[i].overlapRectangles(user)))
                 {
+                    
                     return true;
                 }
             }

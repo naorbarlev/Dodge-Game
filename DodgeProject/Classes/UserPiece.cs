@@ -25,7 +25,7 @@ namespace DodgeProject
         {
             this.Speed = USER_SPEED;
             this.life = 3;
-            this.ImgUrl = "ms-appx:///Assets/smile.png"; 
+            this.ImgUrl = "ms-appx:///Assets/face.png"; 
         }
     }
 }

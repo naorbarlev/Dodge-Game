@@ -1,5 +1,7 @@
 WinMetadata\Windows.winmd
+Assets\face.png
 Assets\goast.png
+Assets\heart.png
 Assets\LockScreenLogo.scale-200.png
 Assets\smile.png
 Assets\SplashScreen.scale-200.png
@@ -12,4 +14,5 @@ Assets\Wide310x150Logo.scale-200.png
 App.xbf
 DodgeProject.xr.xml
 MainPage.xbf
+SplashScreen.xbf
 Properties\Default.rd.xml

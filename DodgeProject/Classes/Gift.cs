@@ -6,8 +6,20 @@ using System.Threading.Tasks;
 
 namespace DodgeProject.Classes
 {
-    class Gift
+     public class Gift : Creature
     {
+        private int life;
 
+        public int Life
+        {
+            get { return life; }
+            set { life = value; }
+        }
+        public Gift(double x, double y, int height, int width) : base(x, y, height, width)
+        {
+            Random rnd = new Random();
+            this.ImgUrl = "ms-appx:///Assets/heart.png";
+            this.life = rnd.Next(1, 3);
+        }
     }
 }
