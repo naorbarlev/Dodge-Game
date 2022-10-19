@@ -47,12 +47,24 @@ namespace DodgeProject.Model
 
         public bool IsWin()
         {
-            return true;
+            int aliveEnemies = 0;
+            if (user.Life <= 0)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < ENEMIES_COUNT; i++)
+            {
+                if (enemies[i].IsAlive)
+                {
+                    aliveEnemies++;
+                }
+            }
+            return aliveEnemies < 2;
         }
 
         public bool EnemiesColiision(Enemy enemy)
         {
-
             for (int i = 0; i < enemies.Length; i++)
             {
                 if (enemy.Index == i)
@@ -70,6 +82,43 @@ namespace DodgeProject.Model
         {
 
         }
+        public void MakeEnemyMove(Enemy enemy)
+        {
+            //enemy.Speed = 1;//דריסה רק כדי לבדוק את המהירויות
+
+
+            if (enemy.X > user.X)
+            {
+                enemy.X -= enemy.Speed;
+            }
+            else
+                if (enemy.X < user.X)
+            {
+                enemy.X += enemy.Speed;
+            }
+
+            if (enemy.Y > user.Y)
+            {
+                enemy.Y -= enemy.Speed;
+            }
+            else
+                if (enemy.Y < user.Y)
+            {
+                enemy.Y += enemy.Speed;
+            }
+        }
+
+        public void userCollision()
+        {
+            for (int i = 0; i < enemies.Length; i++)
+            {
+                if (enemies[i].IsAlive && enemies[i].overlapRectangles(user))
+                {
+                    if(user.Life > 0)
+                        user.Life--;
+                }
+            }
+        }
 
         public void MakeMove(String dir)
         {
@@ -83,29 +132,34 @@ namespace DodgeProject.Model
                         if (user.Y > 0)
                             user.Y -= user.Speed;
                         else
-                            user.Y = 0;
+                            //user.Y = 0;//למצב בו אין אפשרות לצאת מהגבולות
+                            user.Y = height - user.Height;
                         break;
 
                     case "Down":
                         if (user.Y < height - user.Height)
                             user.Y += user.Speed;
                         else
-                            user.Y = height - user.Height;
+                            //user.Y = height - user.Height; //למצב בו אין אפשרות לצאת מהגבולות
+                            user.Y = 0;
                         break;
 
                     case "Right":
                         if (user.X < width - user.Width)
                             user.X += user.Speed;
                         else
-                            user.X = width - user.Width;
+                            //user.X = width - user.Width;למצב בו אין אפשרות לצאת מהגבולות//
+                            user.X = 0;
                         break;
 
                     case "Left":
                         if (user.X > 0)
                             user.X -= user.Speed;
                         else
-                            user.X = 0;
+                            //user.X = 0;//למצב בו אין אפשרות לצאת מהגבולות
+                            user.X = width - user.Width;
                         break;
+
                     case "Space":
                         user.X = rnd.Next(1, this.width);
                         user.Y = rnd.Next(1, this.height);
@@ -137,44 +191,6 @@ namespace DodgeProject.Model
             get { return width; }
             set { width = value; }
         }
-
-        public void MakeEnemyMove(Enemy enemy)
-        {
-            //enemy.Speed = 1;//דריסה רק כדי לבדוק את המהירויות
-
-
-            if (enemy.X > user.X)
-            {
-                enemy.X -= enemy.Speed;
-            }
-            else
-                if (enemy.X < user.X)
-                {
-                    enemy.X += enemy.Speed;
-                }
-
-            if (enemy.Y> user.Y)
-            {
-                enemy.Y -= enemy.Speed;
-            }
-            else 
-                if (enemy.Y < user.Y)
-                {
-                    enemy.Y += enemy.Speed;
-                }
-        }
-
-        public bool userCollision()
-        {
-            for (int i = 0; i < enemies.Length; i++)
-            {
-                if (enemies[i].overlapRectangles(user))
-                    //אם יהיה שדרוג למספר חיים שיש לשחקן כאן המקום להויד בערך
-                    return true;
-            }
-            return false;
-        }
-
         public bool IsGameOver()
         {
             return true;

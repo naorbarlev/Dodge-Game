@@ -13,6 +13,7 @@ using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.Foundation;
 using Windows.UI;
+using Windows.UI.Popups;
 
 namespace DodgeProject
 {
@@ -58,6 +59,8 @@ namespace DodgeProject
             {
                 enemiesRectangles[i] = CreateEnemy(boardGame.enemies[i]);
             }
+
+            lifesCountTxt.Text = $"Life: {boardGame.user.Life}";
         }
 
        
@@ -127,33 +130,32 @@ namespace DodgeProject
         private void TimerTick(object sender, object e)
         {
             EnemisMove();
-            if(boardGame.userCollision())
-            {
-                timer.Stop();
-                
-            }
-               
+            boardGame.userCollision();
             for (int i = 0; i < boardGame.enemies.Length; i++)
             {
-
                 if (boardGame.EnemiesColiision(boardGame.enemies[i]))
                 {
                     enemiesRectangles[i].Visibility = Visibility.Collapsed;
                     mainCanvas.Children.Remove(enemiesRectangles[i]);
+                    boardGame.enemies[i].IsAlive = false;
                 }
             }
+
+            lifesCountTxt.Text = $"Life: {boardGame.user.Life}";
             //בדיקת התנגשות עם השחקן
             //מעבר בלולאה על התנגשות אובים
             //בדיקת ניצחון או הפסד
 
-            if(boardGame.IsWin())
-            {
 
-            }
-            if (boardGame.IsGameOver())
+            if (boardGame.user.Life <= 0)
             {
-
+                lost();
             }
+            if (boardGame.IsWin())
+            {
+                win();
+            }
+          
            
            
         }
@@ -173,7 +175,30 @@ namespace DodgeProject
             timer.Interval = new System.TimeSpan(0, 0, 0, 0, TIMEINTERVAL);
             timer.Start();
         }
-      
 
+        private void win()
+        {
+            timer.Stop();
+            string message = "You won try again!";
+
+            // Initialize a new MessageDialog instance
+            MessageDialog messageDialog = new MessageDialog(message, "lost");
+
+            // Display the message dialog
+            messageDialog.ShowAsync();
+        }
+        private void lost()
+        {
+            timer.Stop();
+            string message = "You lost try again!";
+
+            // Initialize a new MessageDialog instance
+            MessageDialog messageDialog = new MessageDialog(message, "lost");
+
+            // Display the message dialog
+            messageDialog.ShowAsync();
+        }
+
+      
     }
 }

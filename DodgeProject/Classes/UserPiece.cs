@@ -24,7 +24,7 @@ namespace DodgeProject
         public UserPiece(double x, double y,  int height,  int width) : base(x, y, height, width)
         {
             this.Speed = USER_SPEED;
-            this.life = 1;
+            this.life = 3;
             this.ImgUrl = "ms-appx:///Assets/smile.png"; 
         }
     }
