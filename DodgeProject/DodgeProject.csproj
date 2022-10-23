@@ -139,11 +139,14 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\download.png" />
     <Content Include="Assets\face.png" />
     <Content Include="Assets\goast.png" />
     <Content Include="Assets\heart.png" />
+    <Content Include="Assets\pause.png" />
     <Content Include="Assets\smile.png" />
-    <Content Include="Assets\wasp.png" />
+    <Content Include="Assets\play.png" />
+    <Content Include="Assets\plus.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -152,6 +155,8 @@
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+    <Content Include="Assets\refresh.png" />
+    <Content Include="Assets\stop.png" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

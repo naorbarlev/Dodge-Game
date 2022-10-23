@@ -30,13 +30,13 @@
     <AppXManifest Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\bin\x86\Debug\Core\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2022-10-19T16:31:15.242</Modified>
+      <Modified>2022-10-23T12:42:26.076</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\bin\x86\Debug\DodgeProject.exe">
       <PackagePath>entrypoint\DodgeProject.exe</PackagePath>
-      <Modified>2022-10-19T16:31:14.622</Modified>
+      <Modified>2022-10-23T12:42:25.461</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Microsoft SDKs\UWPNuGetPackages\runtime.win10-x86.microsoft.netcore.universalwindowsplatform\6.2.12\runtimes\win10-x86\lib\uap10.0.15138\System.Runtime.dll">
       <PackagePath>System.Runtime.dll</PackagePath>
@@ -45,6 +45,10 @@
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Windows Kits\10\bin\10.0.19041.0\XamlCompiler\Microsoft.UI.Xaml.Markup.winmd">
       <PackagePath>Microsoft.UI.Xaml.Markup.winmd</PackagePath>
       <Modified>2020-12-02T01:52:00.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\Assets\download.png">
+      <PackagePath>Assets\download.png</PackagePath>
+      <Modified>2022-10-20T10:08:06.974</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\Assets\face.png">
       <PackagePath>Assets\face.png</PackagePath>
@@ -58,13 +62,21 @@
       <PackagePath>Assets\heart.png</PackagePath>
       <Modified>2022-10-19T13:05:40.492</Modified>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\Assets\pause.png">
+      <PackagePath>Assets\pause.png</PackagePath>
+      <Modified>2022-10-23T11:06:09.172</Modified>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\Assets\smile.png">
       <PackagePath>Assets\smile.png</PackagePath>
       <Modified>2022-10-13T10:33:20.646</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\Assets\wasp.png">
-      <PackagePath>Assets\wasp.png</PackagePath>
-      <Modified>2022-10-06T12:18:43.177</Modified>
+    <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\Assets\play.png">
+      <PackagePath>Assets\play.png</PackagePath>
+      <Modified>2022-10-20T10:04:21.807</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\Assets\plus.png">
+      <PackagePath>Assets\plus.png</PackagePath>
+      <Modified>2022-10-20T10:04:21.816</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\Assets\LockScreenLogo.scale-200.png">
       <PackagePath>Assets\LockScreenLogo.scale-200.png</PackagePath>
@@ -100,6 +112,14 @@
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
       <Modified>2022-08-14T17:17:19.836</Modified>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\Assets\refresh.png">
+      <PackagePath>Assets\refresh.png</PackagePath>
+      <Modified>2022-10-20T10:04:21.822</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\Assets\stop.png">
+      <PackagePath>Assets\stop.png</PackagePath>
+      <Modified>2022-10-20T10:04:21.826</Modified>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\Properties\Default.rd.xml">
       <PackagePath>Properties\Default.rd.xml</PackagePath>
       <Modified>2022-10-06T07:45:47.937</Modified>
@@ -110,15 +130,15 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\bin\x86\Debug\App.xbf">
       <PackagePath>App.xbf</PackagePath>
-      <Modified>2022-10-19T16:31:14.526</Modified>
+      <Modified>2022-10-23T12:38:16.407</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\bin\x86\Debug\MainPage.xbf">
       <PackagePath>MainPage.xbf</PackagePath>
-      <Modified>2022-10-19T16:31:14.530</Modified>
+      <Modified>2022-10-23T12:38:16.407</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\bin\x86\Debug\SplashScreen.xbf">
       <PackagePath>SplashScreen.xbf</PackagePath>
-      <Modified>2022-10-19T16:31:14.530</Modified>
+      <Modified>2022-10-23T12:38:16.407</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Windows Kits\10\UnionMetadata\10.0.19041.0\Windows.winmd">
       <PackagePath>WinMetadata\Windows.winmd</PackagePath>
@@ -126,11 +146,11 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\bin\x86\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>
-      <Modified>2022-10-19T15:40:02.378</Modified>
+      <Modified>2022-10-23T11:41:41.644</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\bin\x86\Debug\Core\DodgeProject.exe">
       <PackagePath>DodgeProject.exe</PackagePath>
-      <Modified>2022-10-19T16:31:15.236</Modified>
+      <Modified>2022-10-23T12:42:26.068</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

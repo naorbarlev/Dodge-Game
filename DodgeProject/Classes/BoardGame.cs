@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DodgeProject.Classes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,15 +11,23 @@ namespace DodgeProject.Model
     {
 
         public const int ENEMIES_COUNT = 10;
+        public const int GIFTS_COUNT = 3;
         public const double START_SPEED = 1;
 
 
-        public Enemy[] enemies;
-        public UserPiece user;
+        private Enemy[] enemies;
+        private UserPiece user;
+        private Gift[] gifts;
+  
+       
+
+
         private int width;
         private int height;
         private double enemySpeed;
         private bool isGameRunning;
+
+       
 
         Random rnd = new Random();
         public BoardGame(int height, int width)
@@ -27,22 +36,55 @@ namespace DodgeProject.Model
             this.width = width;
 
             enemies = new Enemy[ENEMIES_COUNT];
+            gifts = new Gift[GIFTS_COUNT];
 
-            //יש להבין איזה גבולות לשים לאויב במספר האקראי
+            int size; //הגרלת מספר שיצור איוב ריבועי ולא מלבני
+
+            for (int i = 0; i < GIFTS_COUNT; i++)
+            {
+                size = rnd.Next(25, 55);
+                gifts[i] = new Gift(rnd.Next(1, width), rnd.Next(1, height), size, size);
+                gifts[i].IsUsed = false;
+            }
+
             for (int i = 0; i < ENEMIES_COUNT; i++)
             {
-                enemies[i] = new Enemy(rnd.Next(1,width) , rnd.Next(1, height), 30 ,30);
+                size = rnd.Next(25, 55);
+                enemies[i] = new Enemy(rnd.Next(1,width) , rnd.Next(1, height), size, size);
+                enemies[i].Index = i;
+            }
+
+            //להבין איזה מספרים כדאי ולהתאים לגבולות
+            user = new UserPiece(200, 200, 50, 50);
+        }
+
+        public void NewGame(int height, int width)
+        {
+            this.height = height;
+            this.width = width;
+
+            enemies = new Enemy[ENEMIES_COUNT];
+            gifts = new Gift[GIFTS_COUNT];
+
+            int size; //הגרלת מספר שיצור איוב ריבועי ולא מלבני
+
+            for (int i = 0; i < GIFTS_COUNT; i++)
+            {
+                size = rnd.Next(25, 55);
+                gifts[i] = new Gift(rnd.Next(1, width), rnd.Next(1, height), size, size);
+                gifts[i].IsUsed = false;
+            }
+
+            for (int i = 0; i < ENEMIES_COUNT; i++)
+            {
+                size = rnd.Next(25, 55);
+                enemies[i] = new Enemy(rnd.Next(1, width), rnd.Next(1, height), size, size);
                 enemies[i].Index = i;
             }
 
             //להבין איזה מספרים כדאי ולהתאים לגבולות
             user = new UserPiece(200, 200, 50, 50);
             isGameRunning = true;
-        }
-
-        public void NewGame()
-        {
-
         }
 
         public bool IsWin()
@@ -70,12 +112,21 @@ namespace DodgeProject.Model
                 if (enemy.Index == i)
                     return false;
 
-                if(enemy.overlapRectangles(enemies[i]) && !(enemy.overlapRectangles(user) || enemies[i].overlapRectangles(user)))
+                if((enemies[i].overlapRectangles(enemy) || enemy.overlapRectangles(enemies[i])) && !(enemy.overlapRectangles(user) || enemies[i].overlapRectangles(user)))
                 {
                     
                     return true;
                 }
             }
+            return false;
+        }
+
+        public bool randomGift()
+        {
+            int a = rnd.Next(0,15);
+            int b = rnd.Next(0, 100);
+            if (a == b)
+                return true;
             return false;
         }
 
@@ -85,28 +136,42 @@ namespace DodgeProject.Model
         }
         public void MakeEnemyMove(Enemy enemy)
         {
-            //enemy.Speed = 1;//דריסה רק כדי לבדוק את המהירויות
-
-
-            if (enemy.X > user.X)
+            if (enemy.GetCenterX() > user.GetCenterX() - enemy.Width / 2)
             {
                 enemy.X -= enemy.Speed;
             }
-            else
-                if (enemy.X < user.X)
+            else if (enemy.GetCenterX() < user.GetCenterX() + enemy.Width / 2)
             {
                 enemy.X += enemy.Speed;
             }
-
-            if (enemy.Y > user.Y)
+            if (enemy.GetCenterY() > user.GetCenterY() - enemy.Height / 2)
             {
                 enemy.Y -= enemy.Speed;
             }
-            else
-                if (enemy.Y < user.Y)
+            else if (enemy.GetCenterY() < user.GetCenterY() + enemy.Height / 2)
             {
                 enemy.Y += enemy.Speed;
             }
+
+            //if (enemy.X > user.X)
+            //{
+            //    enemy.X -= enemy.Speed;
+            //}
+            //else
+            //    if (enemy.X < user.X)
+            //{
+            //    enemy.X += enemy.Speed;
+            //}
+
+            //if (enemy.Y > user.Y)
+            //{
+            //    enemy.Y -= enemy.Speed;
+            //}
+            //else
+            //    if (enemy.Y < user.Y)
+            //{
+            //    enemy.Y += enemy.Speed;
+            //}
         }
 
         public void userCollision()
@@ -120,11 +185,23 @@ namespace DodgeProject.Model
                 }
             }
         }
+        public bool userHeartCollision(Gift gift)
+        {
+            
+            if(gift.overlapRectangles(user) && gift.IsUsed == false)
+            {
+                user.Life += gift.Life;
+                return true;
+            }
+            
+            return false;
+        }
+
+
+
 
         public void MakeMove(String dir)
         {
-
-
             if(isGameRunning)
             {
                 switch (dir)
@@ -179,8 +256,6 @@ namespace DodgeProject.Model
             get { return enemySpeed; }
             set { enemySpeed = value; }
         }
-
-
         public bool IsGameRunning
         {
             get { return isGameRunning; }
@@ -196,5 +271,24 @@ namespace DodgeProject.Model
         {
             return true;
         }
+
+        public Gift[] Gifts
+        {
+            get { return gifts; }
+            set { gifts = value; }
+        }
+
+        public Enemy[] Enemies
+        {
+            get { return enemies; }
+            set { enemies = value; }
+        }
+
+        public UserPiece User
+        {
+            get { return user; }
+            set { user = value; }
+        }
+
     }
 }

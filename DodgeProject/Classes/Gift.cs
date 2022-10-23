@@ -9,6 +9,14 @@ namespace DodgeProject.Classes
      public class Gift : Creature
     {
         private int life;
+        private bool isUsed;
+
+        public bool IsUsed
+        {
+            get { return isUsed; }
+            set { isUsed = value; }
+        }
+
 
         public int Life
         {
@@ -20,6 +28,7 @@ namespace DodgeProject.Classes
             Random rnd = new Random();
             this.ImgUrl = "ms-appx:///Assets/heart.png";
             this.life = rnd.Next(1, 3);
+            isUsed = false;
         }
     }
 }

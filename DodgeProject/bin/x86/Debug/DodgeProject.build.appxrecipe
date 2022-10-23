@@ -34,6 +34,9 @@
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Windows Kits\10\bin\10.0.19041.0\XamlCompiler\Microsoft.UI.Xaml.Markup.winmd">
       <PackagePath>Microsoft.UI.Xaml.Markup.winmd</PackagePath>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\Assets\download.png">
+      <PackagePath>Assets\download.png</PackagePath>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\Assets\face.png">
       <PackagePath>Assets\face.png</PackagePath>
     </AppxPackagedFile>
@@ -43,11 +46,17 @@
     <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\Assets\heart.png">
       <PackagePath>Assets\heart.png</PackagePath>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\Assets\pause.png">
+      <PackagePath>Assets\pause.png</PackagePath>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\Assets\smile.png">
       <PackagePath>Assets\smile.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\Assets\wasp.png">
-      <PackagePath>Assets\wasp.png</PackagePath>
+    <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\Assets\play.png">
+      <PackagePath>Assets\play.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\Assets\plus.png">
+      <PackagePath>Assets\plus.png</PackagePath>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\Assets\LockScreenLogo.scale-200.png">
       <PackagePath>Assets\LockScreenLogo.scale-200.png</PackagePath>
@@ -75,6 +84,12 @@
     <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\Assets\Wide310x150Logo.scale-200.png">
       <PackagePath>Assets\Wide310x150Logo.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\Assets\refresh.png">
+      <PackagePath>Assets\refresh.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\Assets\stop.png">
+      <PackagePath>Assets\stop.png</PackagePath>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\Properties\Default.rd.xml">
       <PackagePath>Properties\Default.rd.xml</PackagePath>

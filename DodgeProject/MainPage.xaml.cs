@@ -14,6 +14,8 @@ using Windows.UI.ViewManagement;
 using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Popups;
+using Windows.Storage.Pickers;
+using System.Collections.Generic;
 
 namespace DodgeProject
 {
@@ -24,23 +26,46 @@ namespace DodgeProject
         private Rect windowRect;
         private Rectangle userRect;
         private Rectangle[] enemiesRectangles;
-        private DispatcherTimer onGameTimer;
-        private const int ON_GAME_TIMER = 10;
-        private bool isGameRunning = false;
+        private Rectangle[] giftsRectangles;
+        private DispatcherTimer runningGameTimer;
+        private const int RUNNING_GAME_TIMER = 10;
+        private CommandBar cmdBar;
+        private AppBarButton restart, pause, play, saveAs, stop;
+        private const double CMD_BAR_HEIGHT = 70;
 
 
-        
 
         public MainPage()
         {
             this.InitializeComponent();
 
             startGame();
-            createTimer(ON_GAME_TIMER);
+            createCmdBar();
+            createTimer(RUNNING_GAME_TIMER);
 
+
+            EventHandlers();
+            
+
+        }
+
+       public void EventHandlers()
+        {
+            //event handlers
             Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
-            onGameTimer.Tick += onGameTimer_Tick;
-
+            DelayAction(3000, new Action(() => { 
+                runningGameTimer.Tick += RunnungGameTimer_Tick;
+                boardGame.IsGameRunning = true;
+            }));
+            //for (int i = 3; i >= 0; i--)
+            //{
+            //    DelayAction(1000, new Action(() => { myMessageDilaog($"Game will start in {i}"); }));
+            //}
+            restart.Click += Restart_Click;
+            play.Click += Play_Click;
+            pause.Click += Pause_Click;
+            saveAs.Click += SaveAs_Click;
+            stop.Click += Stop_Click;
         }
 
         public void startGame()
@@ -50,18 +75,131 @@ namespace DodgeProject
 
             boardGame = new BoardGame((int)windowRect.Height, (int)windowRect.Width);
 
-            userRect = CreateUserPiece(boardGame.user);
+            userRect = CreateUserPiece(boardGame.User);
 
-            enemiesRectangles = new Rectangle[boardGame.enemies.Length];
-            for (int i = 0; i < boardGame.enemies.Length; i++)
+            enemiesRectangles = new Rectangle[boardGame.Enemies.Length];
+            giftsRectangles = new Rectangle[boardGame.Gifts.Length];
+
+            for (int i = 0; i < boardGame.Enemies.Length; i++)
             {
-                enemiesRectangles[i] = CreateEnemy(boardGame.enemies[i]);
+                enemiesRectangles[i] = CreateEnemy(boardGame.Enemies[i]);
             }
 
-            lifesCountTxt.Text = $"Life: {boardGame.user.Life}";
+            lifesCountTxt.Text = $"Life: {boardGame.User.Life}";
+
+            
         }
 
-       
+        private void CoreWindow_KeyDown(CoreWindow sender, KeyEventArgs args)
+        {
+            if(boardGame.IsGameRunning)
+            {
+                switch (args.VirtualKey)
+                {
+                    case VirtualKey.Up:
+                        boardGame.MakeMove("Up");
+                        break;
+
+                    case VirtualKey.Down:
+                        boardGame.MakeMove("Down");
+                        break;
+
+                    case VirtualKey.Left:
+                        boardGame.MakeMove("Left");
+                        break;
+
+                    case VirtualKey.Right:
+                        boardGame.MakeMove("Right");
+                        break;
+
+                    case VirtualKey.Space:
+                        boardGame.MakeMove("Space");
+                        break;
+                }
+            }
+
+            Canvas.SetLeft(userRect, boardGame.User.X);
+            Canvas.SetTop(userRect, boardGame.User.Y);
+        }
+
+        private void RunnungGameTimer_Tick(object sender, object e)
+        {
+            if(boardGame.IsGameRunning)
+            {
+                EnemisMove();
+                boardGame.userCollision();
+
+
+                //יצירת לב אקראי על הלוח
+                //if (boardGame.randomGift())
+                //{
+                //    Random rnd = new Random();
+                //    int size = rnd.Next(25, 55);
+
+                //    for (int i = 0; i < boardGame.Gifts.Length; i++)
+                //    {
+                //        if(!boardGame.Gifts[i].IsUsed)
+                //        {
+                //            giftsRectangles[i] = CreateGift(boardGame.Gifts[i]);
+                //            break;
+                //        }
+                //    }
+                //}
+                    
+
+                
+                for (int i = 0; i < boardGame.Enemies.Length; i++)
+                {
+                    if (boardGame.EnemiesColiision(boardGame.Enemies[i]))
+                    {
+                        enemiesRectangles[i].Visibility = Visibility.Collapsed;
+                        mainCanvas.Children.Remove(enemiesRectangles[i]);
+                        boardGame.Enemies[i].IsAlive = false;
+                    }
+                }
+
+
+                //התנגשות בלב
+                //for (int i = 0; i < boardGame.Gifts.Length; i++)
+                //{
+                //    if (giftsRectangles[i] != null && boardGame.userHeartCollision(boardGame.Gifts[i]))
+                //    {
+                //        boardGame.Gifts[i].IsUsed = true;
+                //        giftsRectangles[i].Visibility = Visibility.Collapsed;
+                //        mainCanvas.Children.Remove(giftsRectangles[i]);
+                //    }
+                //}
+
+                lifesCountTxt.Text = $"Life: {boardGame.User.Life}";
+
+                if (boardGame.User.Life <= 0)
+                {
+                    lost();
+                }
+                if (boardGame.IsWin())
+                {
+                    win();
+                }
+            }
+        }
+
+        private void EnemisMove()
+        {
+            for (int i = 0; i < boardGame.Enemies.Length; i++)
+            {
+                boardGame.MakeEnemyMove(boardGame.Enemies[i]);
+                Canvas.SetLeft(enemiesRectangles[i], boardGame.Enemies[i].X);
+                Canvas.SetTop(enemiesRectangles[i], boardGame.Enemies[i].Y);
+            }
+        }
+
+        private void createTimer(int OnGame)
+        {
+            runningGameTimer = new DispatcherTimer();
+            runningGameTimer.Interval = new System.TimeSpan(0, 0, 0, 0, OnGame);
+            runningGameTimer.Start();
+
+        }
 
         //מייצר משתמש שניתן לשים על הקנבאס עפ הנתונים מהמחלקה
         public Rectangle CreateUserPiece(UserPiece userPiece)
@@ -72,13 +210,11 @@ namespace DodgeProject
             currentRect.Fill = new ImageBrush
             {
                 ImageSource = new BitmapImage(new Uri(userPiece.ImgUrl)),
-               
             };
             Canvas.SetLeft(currentRect, userPiece.X);
             Canvas.SetTop(currentRect, userPiece.Y);
             mainCanvas.Children.Add(currentRect);
             return currentRect;
-
         }
         public Rectangle CreateEnemy(Enemy enemy)
         {
@@ -95,103 +231,197 @@ namespace DodgeProject
             return currentRect;
 
         }
-
-        private void CoreWindow_KeyDown(CoreWindow sender, KeyEventArgs args)
+        public Rectangle CreateGift(Gift gift)
         {
-            switch (args.VirtualKey)
+            Rectangle currentRect = new Rectangle();
+            currentRect.Width = gift.Width;
+            currentRect.Height = gift.Height;
+            currentRect.Fill = new ImageBrush
             {
-                case VirtualKey.Up:
-                    boardGame.MakeMove("Up");
-                    break;
+                ImageSource = new BitmapImage(new Uri(gift.ImgUrl))
+            };
+            Canvas.SetLeft(currentRect, gift.X);
+            Canvas.SetTop(currentRect, gift.Y);
+            mainCanvas.Children.Add(currentRect);
+            return currentRect;
 
-                case VirtualKey.Down:
-                    boardGame.MakeMove("Down");
-                    break;
-
-                case VirtualKey.Left:
-                    boardGame.MakeMove("Left");
-                    break;
-
-                case VirtualKey.Right:
-                    boardGame.MakeMove("Right");
-                    break;
- 
-                case VirtualKey.Space:
-                    boardGame.MakeMove("Space");
-                    break;
-            }
-
-            Canvas.SetLeft(userRect, boardGame.user.X);
-            Canvas.SetTop(userRect, boardGame.user.Y);
         }
 
-        private void onGameTimer_Tick(object sender, object e)
-        {
-            if(isGameRunning == false)
-            {
-                myMessageDilaog
-                System.Threading.Thread.Sleep(3000);
-                isGameRunning = true;
-            }
-            EnemisMove();
-            boardGame.userCollision();
-            for (int i = 0; i < boardGame.enemies.Length; i++)
-            {
-                if (boardGame.EnemiesColiision(boardGame.enemies[i]))
-                {
-                    enemiesRectangles[i].Visibility = Visibility.Collapsed;
-                    mainCanvas.Children.Remove(enemiesRectangles[i]);
-                    boardGame.enemies[i].IsAlive = false;
-                }
-            }
-
-            lifesCountTxt.Text = $"Life: {boardGame.user.Life}";
-
-            if (boardGame.user.Life <= 0)
-            {
-                lost();
-            }
-            if (boardGame.IsWin())
-            {
-                win();
-            }
-        }
-
-
-        private void EnemisMove()
-        {
-            for (int i = 0; i < boardGame.enemies.Length; i++)
-            {
-                boardGame.MakeEnemyMove(boardGame.enemies[i]);
-                Canvas.SetLeft(enemiesRectangles[i], boardGame.enemies[i].X);
-                Canvas.SetTop(enemiesRectangles[i], boardGame.enemies[i].Y);
-            }
-        }
-
-        private void createTimer(int OnGame)
-        {
-            onGameTimer = new DispatcherTimer();
-            onGameTimer.Interval = new System.TimeSpan(0, 0, 0, 0, OnGame);
-            onGameTimer.Start();
-        }
 
         private void win()
         {
-            onGameTimer.Stop();
+            boardGame.IsGameRunning = false;
+            runningGameTimer.Stop();
             myMessageDilaog("You won try again!");
         }
         private void lost()
         {
-            onGameTimer.Stop();
+            boardGame.IsGameRunning = false;
+            runningGameTimer.Stop();
             myMessageDilaog("You lost try again!");
         }
 
         public void myMessageDilaog(string msg)
         {
-            MessageDialog messageDialog = new MessageDialog(msg, "Lost");
+            MessageDialog messageDialog = new MessageDialog(msg, "Message");
             messageDialog.ShowAsync();
         }
 
-        
+        private void createCmdBar()
+        {
+            ToolTip toolTipPause = new ToolTip();
+            ToolTip toolTipReplay = new ToolTip();
+            ToolTip toolTipPlay = new ToolTip();
+            ToolTip toolTipSaveAs = new ToolTip();
+            ToolTip toolTipStop = new ToolTip();
+
+            BitmapIcon biPlay = new BitmapIcon();
+            biPlay.UriSource = new Uri("ms-appx:///Assets/play.png");
+
+            BitmapIcon biReplay = new BitmapIcon();
+            biReplay.UriSource = new Uri("ms-appx:///Assets/refresh.png");
+
+            BitmapIcon biPause = new BitmapIcon();
+            biPause.UriSource = new Uri("ms-appx:///Assets/pause.png");
+
+            BitmapIcon biSaveAs= new BitmapIcon();
+            biSaveAs.UriSource = new Uri("ms-appx:///Assets/download.png");
+
+            BitmapIcon biStop = new BitmapIcon();
+            biStop.UriSource = new Uri("ms-appx:///Assets/stop.png");
+
+
+            cmdBar = new CommandBar();
+            cmdBar.Background = new SolidColorBrush(Color.FromArgb(100, 71, 130, 218));
+
+            play = new AppBarButton();
+            play.Label = "Play";
+            play.Icon = biPlay;
+            toolTipPlay.Content = "Press to play";
+            ToolTipService.SetToolTip(play, toolTipPlay);
+
+            restart = new AppBarButton();
+            restart.Label = "Replay";
+            restart.Icon = biReplay;
+            toolTipReplay.Content = "Press to restart the game";
+            ToolTipService.SetToolTip(restart, toolTipReplay);
+
+            pause = new AppBarButton();
+            pause.Label = "Pause";
+            pause.Icon = biPause;
+            toolTipPause.Content = "Press to pause the game";
+            ToolTipService.SetToolTip(pause, toolTipPause);
+
+            saveAs = new AppBarButton();
+            saveAs.Label = "Save as";
+            saveAs.Icon = biSaveAs;
+            toolTipSaveAs.Content = "Press to save game";
+            ToolTipService.SetToolTip(saveAs, toolTipSaveAs);
+
+            stop = new AppBarButton();
+            stop.Label = "Stop";
+            stop.Icon = biStop;
+            toolTipStop.Content = "Press to Stop";
+            ToolTipService.SetToolTip(stop, toolTipStop);
+
+            /*Cancels tab affect*/
+            saveAs.IsTabStop = false;
+            pause.IsTabStop = false;
+            restart.IsTabStop = false;
+            play.IsTabStop = false;
+            stop.IsTabStop = false;
+            cmdBar.IsTabStop = false;
+
+            /*Cancel right left*/
+            saveAs.CanBeScrollAnchor = false;
+            pause.CanBeScrollAnchor = false;
+            restart.CanBeScrollAnchor = false;
+            play.CanBeScrollAnchor = false;
+            stop.CanBeScrollAnchor = false;
+            cmdBar.CanBeScrollAnchor = false;
+
+            cmdBar.PrimaryCommands.Add(play);
+            cmdBar.PrimaryCommands.Add(restart);
+            cmdBar.PrimaryCommands.Add(pause);
+            cmdBar.PrimaryCommands.Add(saveAs);
+            cmdBar.PrimaryCommands.Add(stop);
+            cmdBar.Height = CMD_BAR_HEIGHT;
+
+
+            Canvas.SetLeft(cmdBar, 0);
+            Canvas.SetTop(cmdBar, boardGame.Height-40);
+            mainCanvas.Children.Add(cmdBar);
+            
+        }
+        private void Restart_Click(object sender, RoutedEventArgs e)
+        {
+            mainCanvas.Children.Remove(userRect);
+            for (int i = 0; i < boardGame.Enemies.Length; i++)
+            {
+                if (boardGame.Enemies[i].IsAlive)
+                {
+                    mainCanvas.Children.Remove(enemiesRectangles[i]);
+                }
+                enemiesRectangles[i].Visibility = Visibility.Visible;
+            }
+
+            startGame();
+            createTimer(RUNNING_GAME_TIMER);
+            EventHandlers();
+        }
+        private void Stop_Click(object sender, RoutedEventArgs e)
+        {
+            runningGameTimer.Stop();
+            mainCanvas.Children.Remove(userRect);
+            for (int i = 0; i < boardGame.Enemies.Length; i++)
+            {
+                if (boardGame.Enemies[i].IsAlive)
+                {
+                    mainCanvas.Children.Remove(enemiesRectangles[i]);
+                }
+                enemiesRectangles[i].Visibility = Visibility.Visible;
+            }
+
+            this.Frame.Navigate(typeof(SplashScreen));
+        }
+        private void Pause_Click(object sender, RoutedEventArgs e)
+        {
+            boardGame.IsGameRunning = false;
+            runningGameTimer.Stop();
+        }
+        private void Play_Click(object sender, RoutedEventArgs e)
+        {
+            if(!boardGame.IsGameRunning)
+            {
+                createTimer(RUNNING_GAME_TIMER);
+                EventHandlers();
+            }
+        }
+
+        private void SaveAs_Click(object sender, RoutedEventArgs e)
+        {
+            boardGame.IsGameRunning = false;
+            runningGameTimer.Stop();
+            //FileSavePicker savePicker = new FileSavePicker();
+            //savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
+            //savePicker.FileTypeChoices.Add("Plain Text", new List<string>() { ".txt" });
+            //savePicker.SuggestedFileName = "New Document";
+
+
+        }
+        public static void DelayAction(int millisecond, Action action)
+        {
+            var timer = new DispatcherTimer();
+            timer.Tick += delegate
+            {
+                action.Invoke();
+                timer.Stop();
+            };
+
+            timer.Interval = TimeSpan.FromMilliseconds(millisecond);
+            timer.Start();
+
+        }
+
     }
 }

@@ -10,5 +10,6 @@ namespace DodgeProject.Classes
     {
         public Enemy[] enemies;
         public UserPiece user;
+
     }
 }
