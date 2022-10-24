@@ -30,6 +30,8 @@ namespace DodgeProject.Model
        
 
         Random rnd = new Random();
+
+
         public BoardGame(int height, int width)
         {
             this.height = height;
@@ -45,18 +47,49 @@ namespace DodgeProject.Model
                 size = rnd.Next(25, 55);
                 gifts[i] = new Gift(rnd.Next(1, width), rnd.Next(1, height), size, size);
                 gifts[i].IsUsed = false;
+                gifts[i].Index = i;
             }
 
             for (int i = 0; i < ENEMIES_COUNT; i++)
             {
-                size = rnd.Next(25, 55);
+                size = rnd.Next(30, 55);
                 enemies[i] = new Enemy(rnd.Next(1,width) , rnd.Next(1, height), size, size);
                 enemies[i].Index = i;
             }
 
             //להבין איזה מספרים כדאי ולהתאים לגבולות
-            user = new UserPiece(200, 200, 50, 50);
+            user = new UserPiece(rnd.Next(1, width), rnd.Next(1, height), 40, 40);
         }
+
+        public void StartNewGame(int height, int width)
+        {
+            this.height = height;
+            this.width = width;
+
+            Random rnd = new Random();
+            int size; //הגרלת מספר שיצור איוב ריבועי ולא מלבני
+
+            for (int i = 0; i < GIFTS_COUNT; i++)
+            {
+                size = rnd.Next(25, 55);
+                gifts[i] = new Gift(rnd.Next(1, width), rnd.Next(1, height), size, size);
+                gifts[i].IsUsed = false;
+            }
+
+            
+            for (int i = 0; i < ENEMIES_COUNT; i++)
+            {
+                size = rnd.Next(30, 55);
+                enemies[i] = new Enemy(rnd.Next(1, width), rnd.Next(1, height), size, size);
+                enemies[i].Index = i;
+                enemies[i].Speed = rnd.Next(1,4);
+            }
+
+            //להבין איזה מספרים כדאי ולהתאים לגבולות
+            user = new UserPiece(rnd.Next(1, width), rnd.Next(1, height), 40, 40);
+        }
+
+
 
         public void NewGame(int height, int width)
         {
@@ -188,7 +221,7 @@ namespace DodgeProject.Model
         public bool userHeartCollision(Gift gift)
         {
             
-            if(gift.overlapRectangles(user) && gift.IsUsed == false)
+            if (gift.IsUsed == false && gift.overlapRectangles(user))
             {
                 user.Life += gift.Life;
                 return true;

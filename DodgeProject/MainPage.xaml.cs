@@ -39,7 +39,7 @@ namespace DodgeProject
         {
             this.InitializeComponent();
 
-            startGame();
+            StartGame();
             createCmdBar();
             createTimer(RUNNING_GAME_TIMER);
 
@@ -54,13 +54,17 @@ namespace DodgeProject
             //event handlers
             Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
             DelayAction(3000, new Action(() => { 
+
                 runningGameTimer.Tick += RunnungGameTimer_Tick;
                 boardGame.IsGameRunning = true;
+
             }));
+
             //for (int i = 3; i >= 0; i--)
             //{
             //    DelayAction(1000, new Action(() => { myMessageDilaog($"Game will start in {i}"); }));
             //}
+
             restart.Click += Restart_Click;
             play.Click += Play_Click;
             pause.Click += Pause_Click;
@@ -68,7 +72,7 @@ namespace DodgeProject
             stop.Click += Stop_Click;
         }
 
-        public void startGame()
+        public void StartGame()
         {
 
             windowRect = ApplicationView.GetForCurrentView().VisibleBounds;
@@ -78,16 +82,42 @@ namespace DodgeProject
             userRect = CreateUserPiece(boardGame.User);
 
             enemiesRectangles = new Rectangle[boardGame.Enemies.Length];
-            giftsRectangles = new Rectangle[boardGame.Gifts.Length];
-
             for (int i = 0; i < boardGame.Enemies.Length; i++)
             {
                 enemiesRectangles[i] = CreateEnemy(boardGame.Enemies[i]);
             }
 
-            lifesCountTxt.Text = $"Life: {boardGame.User.Life}";
+            giftsRectangles = new Rectangle[boardGame.Gifts.Length];
 
-            
+
+            updateLifes();
+        }
+
+        public void RestartGame()
+        {
+
+            windowRect = ApplicationView.GetForCurrentView().VisibleBounds;
+
+            boardGame.StartNewGame((int)windowRect.Height, (int)windowRect.Width);
+
+            userRect = CreateUserPiece(boardGame.User);
+
+            enemiesRectangles = new Rectangle[boardGame.Enemies.Length];
+            for (int i = 0; i < boardGame.Enemies.Length; i++)
+            {
+                enemiesRectangles[i] = CreateEnemy(boardGame.Enemies[i]);
+            }
+
+            //giftsRectangles = new Rectangle[boardGame.Gifts.Length];
+            //for (int i = 0; i < boardGame.Gifts.Length; i++)
+            //{
+            //    giftsRectangles[i] = CreateGift(boardGame.Gifts[i]);
+            //}
+
+
+            updateLifes();
+            runningGameTimer.Start(); ;
+            EventHandlers();
         }
 
         private void CoreWindow_KeyDown(CoreWindow sender, KeyEventArgs args)
@@ -129,25 +159,21 @@ namespace DodgeProject
                 EnemisMove();
                 boardGame.userCollision();
 
-
                 //יצירת לב אקראי על הלוח
-                //if (boardGame.randomGift())
-                //{
-                //    Random rnd = new Random();
-                //    int size = rnd.Next(25, 55);
+                if (boardGame.randomGift())
+                {
+                    Random rnd = new Random();
 
-                //    for (int i = 0; i < boardGame.Gifts.Length; i++)
-                //    {
-                //        if(!boardGame.Gifts[i].IsUsed)
-                //        {
-                //            giftsRectangles[i] = CreateGift(boardGame.Gifts[i]);
-                //            break;
-                //        }
-                //    }
-                //}
-                    
+                    for (int i = 0; i < boardGame.Gifts.Length; i++)
+                    {
+                        if (giftsRectangles[i] == null && !boardGame.Gifts[i].IsUsed)
+                        {
+                            giftsRectangles[i] = CreateGift(boardGame.Gifts[i]);
+                            break;
+                        }
+                    }
+                }
 
-                
                 for (int i = 0; i < boardGame.Enemies.Length; i++)
                 {
                     if (boardGame.EnemiesColiision(boardGame.Enemies[i]))
@@ -158,28 +184,23 @@ namespace DodgeProject
                     }
                 }
 
-
                 //התנגשות בלב
-                //for (int i = 0; i < boardGame.Gifts.Length; i++)
-                //{
-                //    if (giftsRectangles[i] != null && boardGame.userHeartCollision(boardGame.Gifts[i]))
-                //    {
-                //        boardGame.Gifts[i].IsUsed = true;
-                //        giftsRectangles[i].Visibility = Visibility.Collapsed;
-                //        mainCanvas.Children.Remove(giftsRectangles[i]);
-                //    }
-                //}
-
-                lifesCountTxt.Text = $"Life: {boardGame.User.Life}";
-
-                if (boardGame.User.Life <= 0)
+                for (int i = 0; i < boardGame.Gifts.Length; i++)
                 {
+                    if (giftsRectangles[i] != null && boardGame.userHeartCollision(boardGame.Gifts[i]))
+                    {
+                        boardGame.Gifts[i].IsUsed = true;
+                        giftsRectangles[i].Visibility = Visibility.Collapsed;
+                        mainCanvas.Children.Remove(giftsRectangles[i]);
+                    }
+                }
+                updateLifes();
+
+                if ((boardGame.User.Life /5) <= 0)
                     lost();
-                }
+
                 if (boardGame.IsWin())
-                {
                     win();
-                }
             }
         }
 
@@ -193,60 +214,12 @@ namespace DodgeProject
             }
         }
 
-        private void createTimer(int OnGame)
+        private void createTimer(int interval)
         {
             runningGameTimer = new DispatcherTimer();
-            runningGameTimer.Interval = new System.TimeSpan(0, 0, 0, 0, OnGame);
+            runningGameTimer.Interval = new System.TimeSpan(0, 0, 0, 0, interval);
             runningGameTimer.Start();
-
         }
-
-        //מייצר משתמש שניתן לשים על הקנבאס עפ הנתונים מהמחלקה
-        public Rectangle CreateUserPiece(UserPiece userPiece)
-        {
-            Rectangle currentRect = new Rectangle();
-            currentRect.Width = userPiece.Width;
-            currentRect.Height = userPiece.Height;
-            currentRect.Fill = new ImageBrush
-            {
-                ImageSource = new BitmapImage(new Uri(userPiece.ImgUrl)),
-            };
-            Canvas.SetLeft(currentRect, userPiece.X);
-            Canvas.SetTop(currentRect, userPiece.Y);
-            mainCanvas.Children.Add(currentRect);
-            return currentRect;
-        }
-        public Rectangle CreateEnemy(Enemy enemy)
-        {
-            Rectangle currentRect = new Rectangle();
-            currentRect.Width = enemy.Width;
-            currentRect.Height = enemy.Height;
-            currentRect.Fill = new ImageBrush
-            {
-                ImageSource = new BitmapImage(new Uri(enemy.ImgUrl))
-            };
-            Canvas.SetLeft(currentRect, enemy.X);
-            Canvas.SetTop(currentRect, enemy.Y);
-            mainCanvas.Children.Add(currentRect);
-            return currentRect;
-
-        }
-        public Rectangle CreateGift(Gift gift)
-        {
-            Rectangle currentRect = new Rectangle();
-            currentRect.Width = gift.Width;
-            currentRect.Height = gift.Height;
-            currentRect.Fill = new ImageBrush
-            {
-                ImageSource = new BitmapImage(new Uri(gift.ImgUrl))
-            };
-            Canvas.SetLeft(currentRect, gift.X);
-            Canvas.SetTop(currentRect, gift.Y);
-            mainCanvas.Children.Add(currentRect);
-            return currentRect;
-
-        }
-
 
         private void win()
         {
@@ -259,6 +232,11 @@ namespace DodgeProject
             boardGame.IsGameRunning = false;
             runningGameTimer.Stop();
             myMessageDilaog("You lost try again!");
+        }
+
+        public void updateLifes()
+        {
+            lifesCountTxt.Text = $"Life: {(boardGame.User.Life / 5)}";
         }
 
         public void myMessageDilaog(string msg)
@@ -353,8 +331,10 @@ namespace DodgeProject
             mainCanvas.Children.Add(cmdBar);
             
         }
+
         private void Restart_Click(object sender, RoutedEventArgs e)
         {
+            runningGameTimer.Stop();
             mainCanvas.Children.Remove(userRect);
             for (int i = 0; i < boardGame.Enemies.Length; i++)
             {
@@ -365,9 +345,7 @@ namespace DodgeProject
                 enemiesRectangles[i].Visibility = Visibility.Visible;
             }
 
-            startGame();
-            createTimer(RUNNING_GAME_TIMER);
-            EventHandlers();
+            RestartGame();
         }
         private void Stop_Click(object sender, RoutedEventArgs e)
         {
@@ -393,8 +371,8 @@ namespace DodgeProject
         {
             if(!boardGame.IsGameRunning)
             {
-                createTimer(RUNNING_GAME_TIMER);
                 EventHandlers();
+                runningGameTimer.Start();
             }
         }
 
@@ -406,8 +384,6 @@ namespace DodgeProject
             //savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
             //savePicker.FileTypeChoices.Add("Plain Text", new List<string>() { ".txt" });
             //savePicker.SuggestedFileName = "New Document";
-
-
         }
         public static void DelayAction(int millisecond, Action action)
         {
@@ -420,6 +396,57 @@ namespace DodgeProject
 
             timer.Interval = TimeSpan.FromMilliseconds(millisecond);
             timer.Start();
+
+        }
+
+        //מייצר משתמש שניתן לשים על הקנבאס עפ הנתונים מהמחלקה
+        public Rectangle CreateUserPiece(UserPiece userPiece)
+        {
+            Rectangle currentRect = new Rectangle();
+            currentRect.Width = userPiece.Width;
+            currentRect.Height = userPiece.Height;
+            currentRect.Fill = new ImageBrush
+            {
+                ImageSource = new BitmapImage(new Uri(userPiece.ImgUrl)),
+            };
+            Canvas.SetLeft(currentRect, userPiece.X);
+            Canvas.SetTop(currentRect, userPiece.Y);
+            mainCanvas.Children.Add(currentRect);
+            return currentRect;
+        }
+        public Rectangle CreateEnemy(Enemy enemy)
+        {
+            Rectangle currentRect = new Rectangle();
+            currentRect.Width = enemy.Width;
+            currentRect.Height = enemy.Height;
+
+            
+            //currentRect.Stroke = new SolidColorBrush(Colors.Red);
+
+            //currentRect.StrokeThickness = 1;
+            currentRect.Fill = new ImageBrush
+            {
+                ImageSource = new BitmapImage(new Uri(enemy.ImgUrl))
+            };
+            Canvas.SetLeft(currentRect, enemy.X);
+            Canvas.SetTop(currentRect, enemy.Y);
+            mainCanvas.Children.Add(currentRect);
+            return currentRect;
+
+        }
+        public Rectangle CreateGift(Gift gift)
+        {
+            Rectangle currentRect = new Rectangle();
+            currentRect.Width = gift.Width;
+            currentRect.Height = gift.Height;
+            currentRect.Fill = new ImageBrush
+            {
+                ImageSource = new BitmapImage(new Uri(gift.ImgUrl))
+            };
+            Canvas.SetLeft(currentRect, gift.X);
+            Canvas.SetTop(currentRect, gift.Y);
+            mainCanvas.Children.Add(currentRect);
+            return currentRect;
 
         }
 
