@@ -9,28 +9,19 @@ namespace DodgeProject.Model
 {
     class BoardGame
     {
-
         public const int ENEMIES_COUNT = 10;
-        public const int GIFTS_COUNT = 3;
+        public const int GIFTS_COUNT = 10;
         public const double START_SPEED = 1;
-
 
         private Enemy[] enemies;
         private UserPiece user;
         private Gift[] gifts;
-  
-       
-
-
         private int width;
         private int height;
         private double enemySpeed;
         private bool isGameRunning;
 
-       
-
         Random rnd = new Random();
-
 
         public BoardGame(int height, int width)
         {
@@ -44,8 +35,8 @@ namespace DodgeProject.Model
 
             for (int i = 0; i < GIFTS_COUNT; i++)
             {
-                size = rnd.Next(25, 55);
-                gifts[i] = new Gift(rnd.Next(1, width), rnd.Next(1, height), size, size);
+                size = rnd.Next(30, 55);
+                gifts[i] = new Gift(rnd.Next(1, width - size), rnd.Next(1, height - size), size, size);
                 gifts[i].IsUsed = false;
                 gifts[i].Index = i;
             }
@@ -53,71 +44,12 @@ namespace DodgeProject.Model
             for (int i = 0; i < ENEMIES_COUNT; i++)
             {
                 size = rnd.Next(30, 55);
-                enemies[i] = new Enemy(rnd.Next(1,width) , rnd.Next(1, height), size, size);
+                enemies[i] = new Enemy(rnd.Next(1, width - size) , rnd.Next(1, height - size), size, size);
                 enemies[i].Index = i;
             }
 
             //להבין איזה מספרים כדאי ולהתאים לגבולות
-            user = new UserPiece(rnd.Next(1, width), rnd.Next(1, height), 40, 40);
-        }
-
-        public void StartNewGame(int height, int width)
-        {
-            this.height = height;
-            this.width = width;
-
-            Random rnd = new Random();
-            int size; //הגרלת מספר שיצור איוב ריבועי ולא מלבני
-
-            for (int i = 0; i < GIFTS_COUNT; i++)
-            {
-                size = rnd.Next(25, 55);
-                gifts[i] = new Gift(rnd.Next(1, width), rnd.Next(1, height), size, size);
-                gifts[i].IsUsed = false;
-            }
-
-            
-            for (int i = 0; i < ENEMIES_COUNT; i++)
-            {
-                size = rnd.Next(30, 55);
-                enemies[i] = new Enemy(rnd.Next(1, width), rnd.Next(1, height), size, size);
-                enemies[i].Index = i;
-                enemies[i].Speed = rnd.Next(1,4);
-            }
-
-            //להבין איזה מספרים כדאי ולהתאים לגבולות
-            user = new UserPiece(rnd.Next(1, width), rnd.Next(1, height), 40, 40);
-        }
-
-
-
-        public void NewGame(int height, int width)
-        {
-            this.height = height;
-            this.width = width;
-
-            enemies = new Enemy[ENEMIES_COUNT];
-            gifts = new Gift[GIFTS_COUNT];
-
-            int size; //הגרלת מספר שיצור איוב ריבועי ולא מלבני
-
-            for (int i = 0; i < GIFTS_COUNT; i++)
-            {
-                size = rnd.Next(25, 55);
-                gifts[i] = new Gift(rnd.Next(1, width), rnd.Next(1, height), size, size);
-                gifts[i].IsUsed = false;
-            }
-
-            for (int i = 0; i < ENEMIES_COUNT; i++)
-            {
-                size = rnd.Next(25, 55);
-                enemies[i] = new Enemy(rnd.Next(1, width), rnd.Next(1, height), size, size);
-                enemies[i].Index = i;
-            }
-
-            //להבין איזה מספרים כדאי ולהתאים לגבולות
-            user = new UserPiece(200, 200, 50, 50);
-            isGameRunning = true;
+            user = new UserPiece(rnd.Next(1, width - 40), rnd.Next(1, height - 40), 40, 40);
         }
 
         public bool IsWin()
@@ -147,7 +79,6 @@ namespace DodgeProject.Model
 
                 if((enemies[i].overlapRectangles(enemy) || enemy.overlapRectangles(enemies[i])) && !(enemy.overlapRectangles(user) || enemies[i].overlapRectangles(user)))
                 {
-                    
                     return true;
                 }
             }
@@ -156,17 +87,14 @@ namespace DodgeProject.Model
 
         public bool randomGift()
         {
-            int a = rnd.Next(0,15);
-            int b = rnd.Next(0, 100);
+            int a = rnd.Next(0,10);
+            int b = rnd.Next(0, 150);
             if (a == b)
                 return true;
             return false;
         }
 
-        public void ResumeGame()
-        {
-
-        }
+       
         public void MakeEnemyMove(Enemy enemy)
         {
             if (enemy.GetCenterX() > user.GetCenterX() - enemy.Width / 2)
@@ -226,13 +154,8 @@ namespace DodgeProject.Model
                 user.Life += gift.Life;
                 return true;
             }
-            
             return false;
         }
-
-
-
-
         public void MakeMove(String dir)
         {
             if(isGameRunning)

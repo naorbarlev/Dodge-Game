@@ -53,7 +53,7 @@ namespace DodgeProject
         {
             //event handlers
             Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
-            DelayAction(3000, new Action(() => { 
+            DelayAction(2500, new Action(() => { 
 
                 runningGameTimer.Tick += RunnungGameTimer_Tick;
                 boardGame.IsGameRunning = true;
@@ -336,6 +336,7 @@ namespace DodgeProject
         {
             runningGameTimer.Stop();
             mainCanvas.Children.Remove(userRect);
+            
             for (int i = 0; i < boardGame.Enemies.Length; i++)
             {
                 if (boardGame.Enemies[i].IsAlive)
@@ -345,35 +346,27 @@ namespace DodgeProject
                 enemiesRectangles[i].Visibility = Visibility.Visible;
             }
 
-            RestartGame();
+            this.Frame.Navigate(typeof(MainPage));
+            //RestartGame();
         }
         private void Stop_Click(object sender, RoutedEventArgs e)
         {
             runningGameTimer.Stop();
-            mainCanvas.Children.Remove(userRect);
-            for (int i = 0; i < boardGame.Enemies.Length; i++)
-            {
-                if (boardGame.Enemies[i].IsAlive)
-                {
-                    mainCanvas.Children.Remove(enemiesRectangles[i]);
-                }
-                enemiesRectangles[i].Visibility = Visibility.Visible;
-            }
-
             this.Frame.Navigate(typeof(SplashScreen));
         }
         private void Pause_Click(object sender, RoutedEventArgs e)
         {
             boardGame.IsGameRunning = false;
-            runningGameTimer.Stop();
+            //runningGameTimer.Stop();
         }
         private void Play_Click(object sender, RoutedEventArgs e)
         {
-            if(!boardGame.IsGameRunning)
-            {
-                EventHandlers();
-                runningGameTimer.Start();
-            }
+            boardGame.IsGameRunning = true;
+            //if(!boardGame.IsGameRunning)
+            //{
+            //    EventHandlers();
+            //    runningGameTimer.Start();
+            //}
         }
 
         private void SaveAs_Click(object sender, RoutedEventArgs e)
@@ -449,6 +442,5 @@ namespace DodgeProject
             return currentRect;
 
         }
-
     }
 }
