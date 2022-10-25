@@ -59,9 +59,10 @@
             set { x = value; }
         }
         
-        public bool overlapRectangles(Creature ctr)
+        public bool overlapRectangles1(Creature ctr)
         {
             /*Top left*/
+            //check if ctr overlap this obj's top left
             if (ctr.X + ctr.width >= this.X && 
                 ctr.X + ctr.width <= this.X + this.width &&
                 ctr.Y + ctr.height >= this.Y &&
@@ -96,8 +97,18 @@
             return false;
 
         }
+        public bool overlapRectangles(Creature ctr)
+        {
+            if (ctr.X + ctr.Width >= this.X &&     // r1 right edge past r2 left
+                ctr.X <= this.X + this.Width &&       // r1 left edge past r2 right
+                ctr.Y + ctr.Height >= this.Y &&       // r1 top edge past r2 bottom
+                ctr.Y <= this.Y + this.Height)      // r1 bottom edge past r2 top
+            {
+                return true;
+            }
+            return false;
 
-      
-
+        }
     }
+
 }

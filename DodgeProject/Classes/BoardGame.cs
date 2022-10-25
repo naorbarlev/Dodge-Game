@@ -81,7 +81,7 @@ namespace DodgeProject.Model
                 //{
                 //    return true;
                 //}
-                if (enemies[i].overlapRectangles(enemy))
+                if (enemy.overlapRectangles(enemies[i]) || enemies[i].overlapRectangles(enemy))
                 {
                     return true;
                 }
@@ -93,7 +93,7 @@ namespace DodgeProject.Model
         public bool randomGift()
         {
             int a = rnd.Next(0,10);
-            int b = rnd.Next(0, 150);
+            int b = rnd.Next(0, 200);
             if (a == b)
                 return true;
             return false;
@@ -153,7 +153,6 @@ namespace DodgeProject.Model
         }
         public bool userHeartCollision(Gift gift)
         {
-            
             if (gift.IsUsed == false && gift.overlapRectangles(user))
             {
                 user.Life += gift.Life;
