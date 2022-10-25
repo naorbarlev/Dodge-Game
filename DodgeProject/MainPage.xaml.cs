@@ -16,6 +16,8 @@ using Windows.UI;
 using Windows.UI.Popups;
 using Windows.Storage.Pickers;
 using System.Collections.Generic;
+using Windows.UI.Xaml.Controls.Primitives;
+using System.Threading.Tasks;
 
 namespace DodgeProject
 {
@@ -42,11 +44,7 @@ namespace DodgeProject
             StartGame();
             createCmdBar();
             createTimer(RUNNING_GAME_TIMER);
-
-
             EventHandlers();
-            
-
         }
 
        public void EventHandlers()
@@ -57,7 +55,6 @@ namespace DodgeProject
 
                 runningGameTimer.Tick += RunnungGameTimer_Tick;
                 boardGame.IsGameRunning = true;
-
             }));
 
             //for (int i = 3; i >= 0; i--)
@@ -91,33 +88,6 @@ namespace DodgeProject
 
 
             updateLifes();
-        }
-
-        public void RestartGame()
-        {
-
-            windowRect = ApplicationView.GetForCurrentView().VisibleBounds;
-
-            boardGame.StartNewGame((int)windowRect.Height, (int)windowRect.Width);
-
-            userRect = CreateUserPiece(boardGame.User);
-
-            enemiesRectangles = new Rectangle[boardGame.Enemies.Length];
-            for (int i = 0; i < boardGame.Enemies.Length; i++)
-            {
-                enemiesRectangles[i] = CreateEnemy(boardGame.Enemies[i]);
-            }
-
-            //giftsRectangles = new Rectangle[boardGame.Gifts.Length];
-            //for (int i = 0; i < boardGame.Gifts.Length; i++)
-            //{
-            //    giftsRectangles[i] = CreateGift(boardGame.Gifts[i]);
-            //}
-
-
-            updateLifes();
-            runningGameTimer.Start(); ;
-            EventHandlers();
         }
 
         private void CoreWindow_KeyDown(CoreWindow sender, KeyEventArgs args)
@@ -225,13 +195,13 @@ namespace DodgeProject
         {
             boardGame.IsGameRunning = false;
             runningGameTimer.Stop();
-            myMessageDilaog("You won try again!");
+            myMessageDilaogAsync("Do you want to play again?", "You Won!");
         }
         private void lost()
         {
             boardGame.IsGameRunning = false;
             runningGameTimer.Stop();
-            myMessageDilaog("You lost try again!");
+            myMessageDilaogAsync("Do you want to play again?", "You Lost :(");
         }
 
         public void updateLifes()
@@ -239,10 +209,25 @@ namespace DodgeProject
             lifesCountTxt.Text = $"Life: {(boardGame.User.Life / 5)}";
         }
 
-        public void myMessageDilaog(string msg)
+        public async Task myMessageDilaogAsync(string msg, string res)
         {
-            MessageDialog messageDialog = new MessageDialog(msg, "Message");
-            messageDialog.ShowAsync();
+            MessageDialog dialog = new MessageDialog(msg, res);
+            dialog.Commands.Add(new UICommand("Yes", null));
+            dialog.Commands.Add(new UICommand("No", null));
+            dialog.DefaultCommandIndex = 0;
+            dialog.CancelCommandIndex = 1;
+            var cmd = await dialog.ShowAsync();
+
+            if (cmd.Label == "Yes")
+            {
+                this.Frame.Navigate(typeof(MainPage));
+            }
+            if (cmd.Label == "No")
+            {
+                this.Frame.Navigate(typeof(SplashScreen));
+            }
+            //MessageDialog messageDialog = new MessageDialog(msg, res);
+            //messageDialog.ShowAsync();
         }
 
         private void createCmdBar()
@@ -357,22 +342,15 @@ namespace DodgeProject
         private void Pause_Click(object sender, RoutedEventArgs e)
         {
             boardGame.IsGameRunning = false;
-            //runningGameTimer.Stop();
         }
         private void Play_Click(object sender, RoutedEventArgs e)
         {
             boardGame.IsGameRunning = true;
-            //if(!boardGame.IsGameRunning)
-            //{
-            //    EventHandlers();
-            //    runningGameTimer.Start();
-            //}
         }
 
         private void SaveAs_Click(object sender, RoutedEventArgs e)
         {
             boardGame.IsGameRunning = false;
-            runningGameTimer.Stop();
             //FileSavePicker savePicker = new FileSavePicker();
             //savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
             //savePicker.FileTypeChoices.Add("Plain Text", new List<string>() { ".txt" });

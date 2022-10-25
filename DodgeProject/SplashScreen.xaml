@@ -20,7 +20,7 @@
             </TextBlock.Foreground>
         </TextBlock>
         <Button x:Name="startNewGaneBtn" Content="Start New Game" Margin="0,452,0,0" VerticalAlignment="Top" Width="391" HorizontalAlignment="Center" FontFamily="Aharoni" FontSize="40" Foreground="#FF0C0000" Click="startNewGaneBtn_Click"/>
-        <Button x:Name="loadGaneBtn" Content="Load A Game" Margin="0,532,0,0" VerticalAlignment="Top" Width="391" HorizontalAlignment="Center" FontFamily="Aharoni" FontSize="40" Foreground="#FF060000"/>
+        <Button x:Name="loadGaneBtn" Content="Load A Game" Margin="0,532,0,0" VerticalAlignment="Top" Width="391" HorizontalAlignment="Center" FontFamily="Aharoni" FontSize="40" Foreground="#FF060000" IsEnabled="False"/>
 
     </Grid>
 </Page>
