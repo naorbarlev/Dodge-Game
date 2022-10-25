@@ -226,8 +226,7 @@ namespace DodgeProject
             {
                 this.Frame.Navigate(typeof(SplashScreen));
             }
-            //MessageDialog messageDialog = new MessageDialog(msg, res);
-            //messageDialog.ShowAsync();
+        
         }
 
         private void createCmdBar()
@@ -332,7 +331,6 @@ namespace DodgeProject
             }
 
             this.Frame.Navigate(typeof(MainPage));
-            //RestartGame();
         }
         private void Stop_Click(object sender, RoutedEventArgs e)
         {
@@ -391,10 +389,10 @@ namespace DodgeProject
             currentRect.Width = enemy.Width;
             currentRect.Height = enemy.Height;
 
-            
-            //currentRect.Stroke = new SolidColorBrush(Colors.Red);
 
-            //currentRect.StrokeThickness = 1;
+            currentRect.Stroke = new SolidColorBrush(Colors.Red);
+
+            currentRect.StrokeThickness = 1;
             currentRect.Fill = new ImageBrush
             {
                 ImageSource = new BitmapImage(new Uri(enemy.ImgUrl))

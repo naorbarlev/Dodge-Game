@@ -77,10 +77,15 @@ namespace DodgeProject.Model
                 if (enemy.Index == i)
                     return false;
 
-                if((enemies[i].overlapRectangles(enemy) || enemy.overlapRectangles(enemies[i])) && !(enemy.overlapRectangles(user) || enemies[i].overlapRectangles(user)))
+                //if((enemies[i].overlapRectangles(enemy) || enemy.overlapRectangles(enemies[i])) && !(enemy.overlapRectangles(user) || enemies[i].overlapRectangles(user)))
+                //{
+                //    return true;
+                //}
+                if (enemies[i].overlapRectangles(enemy))
                 {
                     return true;
                 }
+
             }
             return false;
         }
@@ -97,19 +102,19 @@ namespace DodgeProject.Model
        
         public void MakeEnemyMove(Enemy enemy)
         {
-            if (enemy.GetCenterX() > user.GetCenterX() - enemy.Width / 2)
+            if (enemy.GetMiddleX() > user.GetMiddleX() - enemy.Width / 2)
             {
                 enemy.X -= enemy.Speed;
             }
-            else if (enemy.GetCenterX() < user.GetCenterX() + enemy.Width / 2)
+            else if (enemy.GetMiddleX() < user.GetMiddleX() + enemy.Width / 2)
             {
                 enemy.X += enemy.Speed;
             }
-            if (enemy.GetCenterY() > user.GetCenterY() - enemy.Height / 2)
+            if (enemy.GetMiddleY() > user.GetMiddleY() - enemy.Height / 2)
             {
                 enemy.Y -= enemy.Speed;
             }
-            else if (enemy.GetCenterY() < user.GetCenterY() + enemy.Height / 2)
+            else if (enemy.GetMiddleY() < user.GetMiddleY() + enemy.Height / 2)
             {
                 enemy.Y += enemy.Speed;
             }

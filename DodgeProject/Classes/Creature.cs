@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DodgeProject
+﻿namespace DodgeProject
 {
     public abstract class Creature
     {
@@ -24,11 +18,11 @@ namespace DodgeProject
             this.width = width;
         }
 
-        public double GetCenterX()
+        public double GetMiddleX()
         {
             return this.x + this.height / 2;
         }
-        public double GetCenterY()
+        public double GetMiddleY()
         {
             return this.y + this.Width / 2;
         }
@@ -38,93 +32,72 @@ namespace DodgeProject
             get { return imgUrl; }
             set { imgUrl = value; }
         }
-
         public int Speed
         {
             get { return speed; }
             set { speed = value; }
         }
-
-
         public int Width
         {
             get { return width; }
             set { width = value; }
         }
-
-
         public int Height
         {
             get { return height; }
             set { height = value; }
         }
-
-
         public double Y
         {
             get { return y; }
             set { y = value; }
         }
 
-
         public double X    
         {
             get { return x; }
             set { x = value; }
         }
-
-        public bool overlapRectangles(Creature creature)
+        
+        public bool overlapRectangles(Creature ctr)
         {
-
-            /*                     a      b              c                        d              */
-            double[] thisRec = { this.X, this.Y, this.X + this.width, this.Y + this.height };
-            /*                       a                b              c                        d              */
-            double[] otherRec = { creature.X, creature.Y, creature.X + creature.width, creature.Y + creature.height };
-
             /*Top left*/
-            if (otherRec[2] >= thisRec[0] && otherRec[2] <= thisRec[2] && otherRec[3] >= thisRec[1] && otherRec[3] <= thisRec[3])
+            if (ctr.X + ctr.width >= this.X && 
+                ctr.X + ctr.width <= this.X + this.width &&
+                ctr.Y + ctr.height >= this.Y &&
+                ctr.Y + ctr.height <= this.Y + this.height)
             {
                 return true;
             }
             /*Top right*/
-            if (otherRec[0] >= thisRec[0] && otherRec[0] <= thisRec[2] && otherRec[3] >= thisRec[1] && otherRec[3] <= thisRec[3])
+            if (ctr.X >= this.X &&
+                ctr.X <= this.X + this.width &&
+                ctr.Y + ctr.height >= this.Y &&
+                ctr.Y + ctr.height <= this.Y + this.height)
             {
                 return true;
             }
             /*bottom right*/
-            if (otherRec[2] >= thisRec[0] && otherRec[2] <= thisRec[2] && otherRec[1] >= thisRec[1] && otherRec[1] <= thisRec[3])
+            if (ctr.X + ctr.width >= this.X &&
+                ctr.X + ctr.width <= this.X + this.width &&
+                ctr.Y >= this.Y &&
+                ctr.Y <= this.Y + this.height)
             {
                 return true;
             }
             /*bottom left*/
-            if (otherRec[0] >= thisRec[0] && otherRec[0] <= thisRec[2] && otherRec[1] >= thisRec[1] && otherRec[1] <= thisRec[3])
+            if (ctr.X >= this.X &&
+                ctr.X <= this.X + this.width &&
+                ctr.Y >= this.Y &&
+                ctr.Y <= this.Y + this.height)
             {
                 return true;
             }
             return false;
+
         }
 
-        //public bool overlapRectangles(Creature creature)
-        //{
-
-        //    //מציאת נקודת האמצע על ידי משפט פיתוגורס
-        //    int creatureMidPoint = (int)(Math.Pow(creature.Height, 2) + Math.Pow(creature.Width, 2));
-        //    creatureMidPoint = (int) Math.Sqrt(creatureMidPoint) / 2;
-
-
-        //    if(creatureMidPoint >= this.X && creatureMidPoint >= this.Y && creatureMidPoint <= (this.X + this.width ) && creatureMidPoint <= (this.Y + this.height))
-        //    {
-        //        return true;
-        //    }
-
-        //    /*                     a      b              c                        d              */
-        //    //double[] thisRec = { this.X, this.Y, this.X + this.width, this.Y + this.height };
-        //    ///*                       a                b              c                        d              */
-        //    //double[] otherRec = { creature.X, creature.Y, creature.X + creature.width, creature.Y + creature.height };
-
-
-        //    return false;
-        //}
+      
 
     }
 }
