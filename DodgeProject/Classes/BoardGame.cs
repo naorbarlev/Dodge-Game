@@ -10,7 +10,7 @@ namespace DodgeProject.Model
     class BoardGame
     {
         public const int ENEMIES_COUNT = 10;
-        public const int GIFTS_COUNT = 10;
+        public const int GIFTS_COUNT = 5;
         public const double START_SPEED = 1;
 
         private Enemy[] enemies;
@@ -20,6 +20,10 @@ namespace DodgeProject.Model
         private int height;
         private double enemySpeed;
         private bool isGameRunning;
+        private bool keepCheckUserCollision;
+
+       
+
 
         Random rnd = new Random();
 
@@ -27,6 +31,7 @@ namespace DodgeProject.Model
         {
             this.height = height;
             this.width = width;
+            keepCheckUserCollision = true;
 
             enemies = new Enemy[ENEMIES_COUNT];
             gifts = new Gift[GIFTS_COUNT];
@@ -139,17 +144,22 @@ namespace DodgeProject.Model
             //    enemy.Y += enemy.Speed;
             //}
         }
-
-        public void userCollision()
+       
+        public bool userCollision()
         {
             for (int i = 0; i < enemies.Length; i++)
             {
-                if (enemies[i].IsAlive && enemies[i].overlapRectangles(user))
+                if (keepCheckUserCollision && enemies[i].IsAlive && enemies[i].overlapRectangles(user))
                 {
-                    if(user.Life > 0)
+                    if (user.Life > 0)
+                    {
+                        keepCheckUserCollision = false;
                         user.Life--;
+                        return true;
+                    }
                 }
             }
+            return false;
         }
         public bool userHeartCollision(Gift gift)
         {
@@ -249,6 +259,10 @@ namespace DodgeProject.Model
             get { return user; }
             set { user = value; }
         }
-
+        public bool KeepCheckUserCollision
+        {
+            get { return keepCheckUserCollision; }
+            set { keepCheckUserCollision = value; }
+        }
     }
 }

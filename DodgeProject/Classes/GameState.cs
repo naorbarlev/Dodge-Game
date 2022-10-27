@@ -6,10 +6,38 @@ using System.Threading.Tasks;
 
 namespace DodgeProject.Classes
 {
-    class GameState
+    public class GameState
     {
-        public Enemy[] enemies;
-        public UserPiece user;
+        public const int ENEMIES_COUNT = 10;
+        public const int GIFTS_COUNT = 5;
 
+        private Enemy[] enemies;
+        private UserPiece user;
+        private Gift[] gifts;
+
+        public GameState()
+        {
+            enemies = new Enemy[ENEMIES_COUNT];
+            gifts = new Gift[GIFTS_COUNT];
+        }
+
+
+        public Gift[] Gifts
+        {
+            get { return gifts; }
+            set { gifts = value; }
+        }
+
+        public Enemy[] Enemies
+        {
+            get { return enemies; }
+            set { enemies = value; }
+        }
+
+        public UserPiece User
+        {
+            get { return user; }
+            set { user = value; }
+        }
     }
 }

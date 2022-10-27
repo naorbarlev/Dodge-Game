@@ -48,3 +48,4 @@ C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DOD
 C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\obj\x86\Debug\SplashScreen.g.cs
 C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\obj\x86\Debug\SplashScreen.xaml
 C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\obj\x86\Debug\SplashScreen.xbf
+C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\bin\x86\Debug\Newtonsoft.Json.dll

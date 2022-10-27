@@ -32,7 +32,7 @@ namespace DodgeProject.Classes
         {
             Random rnd = new Random();
             this.ImgUrl = "ms-appx:///Assets/heart.png";
-            this.life = rnd.Next(1, 4) * 5;
+            this.life = rnd.Next(1, 4);
             isUsed = false;
         }
     }

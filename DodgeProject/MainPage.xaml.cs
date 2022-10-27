@@ -18,6 +18,9 @@ using Windows.Storage.Pickers;
 using System.Collections.Generic;
 using Windows.UI.Xaml.Controls.Primitives;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using System.IO;
+using System.Threading;
 
 namespace DodgeProject
 {
@@ -85,8 +88,6 @@ namespace DodgeProject
             }
 
             giftsRectangles = new Rectangle[boardGame.Gifts.Length];
-
-
             updateLifes();
         }
 
@@ -127,8 +128,12 @@ namespace DodgeProject
             if(boardGame.IsGameRunning)
             {
                 EnemisMove();
-                boardGame.userCollision();
-
+                //לאחר התנגשות צריך למצוא דרך להשהות את הפונקציה של התנגות השחקן למשך שנייה
+                if (boardGame.userCollision())
+                {
+                    DelayAction(500, new Action(() => { boardGame.KeepCheckUserCollision = true; }));
+                }
+              
                 //יצירת לב אקראי על הלוח
                 if (boardGame.randomGift())
                 {
@@ -166,7 +171,7 @@ namespace DodgeProject
                 }
                 updateLifes();
 
-                if ((boardGame.User.Life /5) <= 0)
+                if (boardGame.User.Life <= 0)
                     lost();
 
                 if (boardGame.IsWin())
@@ -206,7 +211,7 @@ namespace DodgeProject
 
         public void updateLifes()
         {
-            lifesCountTxt.Text = $"Life: {(boardGame.User.Life / 5)}";
+            lifesCountTxt.Text = $"Life: {(boardGame.User.Life)}";
         }
 
         public async Task myMessageDilaogAsync(string msg, string res)
@@ -389,10 +394,9 @@ namespace DodgeProject
             currentRect.Width = enemy.Width;
             currentRect.Height = enemy.Height;
 
+            //currentRect.Stroke = new SolidColorBrush(Colors.Red);
+            //currentRect.StrokeThickness = 1;
 
-            currentRect.Stroke = new SolidColorBrush(Colors.Red);
-
-            currentRect.StrokeThickness = 1;
             currentRect.Fill = new ImageBrush
             {
                 ImageSource = new BitmapImage(new Uri(enemy.ImgUrl))
@@ -418,5 +422,13 @@ namespace DodgeProject
             return currentRect;
 
         }
+
+
+        public static void writeGameStateToFile(GameState gameState, string fileName)
+        {
+            var jsonString = JsonConvert.SerializeObject(gameState, Formatting.Indented);
+            File.WriteAllText(fileName, jsonString);
+        }
+
     }
 }
