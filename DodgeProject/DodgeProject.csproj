@@ -124,6 +124,7 @@
     <Compile Include="Classes\Enemy.cs" />
     <Compile Include="Classes\GameState.cs" />
     <Compile Include="Classes\Gift.cs" />
+    <Compile Include="Classes\JsonFileUtils.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>

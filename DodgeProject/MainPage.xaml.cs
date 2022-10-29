@@ -22,6 +22,7 @@ using Newtonsoft.Json;
 using System.IO;
 using System.Threading;
 
+
 namespace DodgeProject
 {
     public sealed partial class MainPage : Page
@@ -353,13 +354,53 @@ namespace DodgeProject
             boardGame.IsGameRunning = true;
         }
 
-        private void SaveAs_Click(object sender, RoutedEventArgs e)
+        private async void SaveAs_Click(object sender, RoutedEventArgs e)
         {
             boardGame.IsGameRunning = false;
-            //FileSavePicker savePicker = new FileSavePicker();
-            //savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
-            //savePicker.FileTypeChoices.Add("Plain Text", new List<string>() { ".txt" });
-            //savePicker.SuggestedFileName = "New Document";
+            //File.WriteAllText(@"C:\Users\NaorBarLev\Desktop\test1.json", JsonConvert.SerializeObject(boardGame.GameState));
+            //writeGameStateToFile(boardGame.GameState, @"C:\Users\NaorBarLev\Desktop\test.json");
+            var jsonGS = JsonConvert.SerializeObject(boardGame.GameState);
+            //File.WriteAllText("C:\\Users\\NaorBarLev\\Desktop\\test1.json", jsonGS);
+
+
+            //myMessageDilaogAsync(jsonGS, "JSON");
+            //File.WriteAllText(@"C:\Users\NaorBarLev\Desktop\test.json", jsonGS);
+
+            FileSavePicker savePicker = new FileSavePicker();
+            savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
+            savePicker.FileTypeChoices.Add("JSON file", new List<string>() { ".json" });
+            savePicker.SuggestedFileName = "MyGame";
+            Windows.Storage.StorageFile file = await savePicker.PickSaveFileAsync();
+            if (file != null)
+            {
+                // Prevent updates to the remote version of the file until
+                // we finish making changes and call CompleteUpdatesAsync.
+                Windows.Storage.CachedFileManager.DeferUpdates(file);
+                // write to file
+                await Windows.Storage.FileIO.WriteTextAsync(file, jsonGS);
+                // Let Windows know that we're finished changing the file so
+                // the other app can update the remote version of the file.
+                // Completing updates may require Windows to ask for user input.
+                Windows.Storage.Provider.FileUpdateStatus status =
+                    await Windows.Storage.CachedFileManager.CompleteUpdatesAsync(file);
+                if (status == Windows.Storage.Provider.FileUpdateStatus.Complete)
+                {
+                    myMessageDilaogAsync("save", "save");
+                }
+                else
+                {
+                    myMessageDilaogAsync("not save", "not save");
+                }
+            }
+            else
+            {
+                myMessageDilaogAsync("cancle", "cancle");
+            }
+        }
+        public static void writeGameStateToFile(GameState gameState, string fileName)
+        {
+            var jsonString = JsonConvert.SerializeObject(gameState, Formatting.Indented);
+            File.WriteAllText(fileName, jsonString);
         }
         public static void DelayAction(int millisecond, Action action)
         {
@@ -425,11 +466,7 @@ namespace DodgeProject
         }
 
 
-        public static void writeGameStateToFile(GameState gameState, string fileName)
-        {
-            var jsonString = JsonConvert.SerializeObject(gameState, Formatting.Indented);
-            File.WriteAllText(fileName, jsonString);
-        }
+       
 
     }
 }

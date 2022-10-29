@@ -31,5 +31,10 @@ namespace DodgeProject
         {
             this.Frame.Navigate(typeof(MainPage));
         }
+
+        private void loadGaneBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
