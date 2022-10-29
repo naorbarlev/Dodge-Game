@@ -9,7 +9,6 @@ namespace DodgeProject
     public class UserPiece : Creature
     {
         protected const int USER_DIMENTION = 75;
-        //protected const double LIFE_USER_MAX = 550;
         protected const int USER_SPEED = 25;
 
         private int life;

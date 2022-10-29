@@ -54,16 +54,11 @@ namespace DodgeProject
         {
             //event handlers
             Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
-            DelayAction(2500, new Action(() => { 
+            DelayAction(2000, new Action(() => { 
 
                 runningGameTimer.Tick += RunnungGameTimer_Tick;
                 boardGame.IsGameRunning = true;
             }));
-
-            //for (int i = 3; i >= 0; i--)
-            //{
-            //    DelayAction(1000, new Action(() => { myMessageDilaog($"Game will start in {i}"); }));
-            //}
 
             restart.Click += Restart_Click;
             play.Click += Play_Click;
@@ -118,7 +113,7 @@ namespace DodgeProject
                         break;
                 }
             }
-
+            boardGame.GameState.UpdateUser(boardGame.User);
             Canvas.SetLeft(userRect, boardGame.User.X);
             Canvas.SetTop(userRect, boardGame.User.Y);
         }
@@ -127,22 +122,28 @@ namespace DodgeProject
         {
             if(boardGame.IsGameRunning)
             {
+                //enemies move according to user
                 EnemisMove();
-                //לאחר התנגשות צריך למצוא דרך להשהות את הפונקציה של התנגות השחקן למשך שנייה
+
+                //calling for user collision eith bad guys
                 if (boardGame.userCollision())
                 {
+                    //changing value to true after 500 ms in order to continue checking for collision
                     DelayAction(500, new Action(() => { boardGame.KeepCheckUserCollision = true; }));
                 }
-              
-                //יצירת לב אקראי על הלוח
+
+                //lottery in order to add gifts to board game              
                 if (boardGame.randomGift())
                 {
-                    Random rnd = new Random();
+                    //Random rnd = new Random();
 
                     for (int i = 0; i < boardGame.Gifts.Length; i++)
                     {
+                        //checking if one of the rect array does not has instance 
+                        //checking if gift object does not used
                         if (giftsRectangles[i] == null && !boardGame.Gifts[i].IsUsed)
                         {
+                            //breaking in order to put only one gift every lottery
                             giftsRectangles[i] = CreateGift(boardGame.Gifts[i]);
                             break;
                         }
@@ -170,6 +171,7 @@ namespace DodgeProject
                     }
                 }
                 updateLifes();
+                boardGame.GameState.UpdateCreatures(boardGame.Enemies, boardGame.Gifts);
 
                 if (boardGame.User.Life <= 0)
                     lost();
@@ -370,7 +372,6 @@ namespace DodgeProject
 
             timer.Interval = TimeSpan.FromMilliseconds(millisecond);
             timer.Start();
-
         }
 
         //מייצר משתמש שניתן לשים על הקנבאס עפ הנתונים מהמחלקה

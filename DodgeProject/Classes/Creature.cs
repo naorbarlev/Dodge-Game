@@ -9,7 +9,6 @@
         private int speed;
         private string imgUrl;
 
-
         public Creature(double x, double y , int height, int width)
         {
             this.x = x;
@@ -99,15 +98,14 @@
         }
         public bool overlapRectangles(Creature ctr)
         {
-            if (ctr.X + ctr.Width >= this.X &&     // r1 right edge past r2 left
-                ctr.X <= this.X + this.Width &&       // r1 left edge past r2 right
-                ctr.Y + ctr.Height >= this.Y &&       // r1 top edge past r2 bottom
-                ctr.Y <= this.Y + this.Height)      // r1 bottom edge past r2 top
+            if (ctr.X + ctr.Width >= this.X &&     // ctr right edge past this.obj left
+                ctr.X <= this.X + this.Width &&       // ctr left edge past this.obj right
+                ctr.Y + ctr.Height >= this.Y &&       // ctr top edge past this.obj bottom
+                ctr.Y <= this.Y + this.Height)      // ctr bottom edge past this.objs top
             {
                 return true;
             }
             return false;
-
         }
     }
 

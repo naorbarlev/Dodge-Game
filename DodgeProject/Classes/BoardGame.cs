@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DodgeProject.Model
 {
-    class BoardGame
+    public class BoardGame
     {
         public const int ENEMIES_COUNT = 10;
         public const int GIFTS_COUNT = 5;
@@ -16,6 +16,10 @@ namespace DodgeProject.Model
         private Enemy[] enemies;
         private UserPiece user;
         private Gift[] gifts;
+        private GameState gameState;
+
+        
+
         private int width;
         private int height;
         private double enemySpeed;
@@ -29,6 +33,7 @@ namespace DodgeProject.Model
 
         public BoardGame(int height, int width)
         {
+            gameState = new GameState();
             this.height = height;
             this.width = width;
             keepCheckUserCollision = true;
@@ -237,10 +242,6 @@ namespace DodgeProject.Model
             get { return width; }
             set { width = value; }
         }
-        public bool IsGameOver()
-        {
-            return true;
-        }
 
         public Gift[] Gifts
         {
@@ -263,6 +264,12 @@ namespace DodgeProject.Model
         {
             get { return keepCheckUserCollision; }
             set { keepCheckUserCollision = value; }
+        }
+
+        public GameState GameState
+        {
+            get { return gameState; }
+            set { gameState = value; }
         }
     }
 }

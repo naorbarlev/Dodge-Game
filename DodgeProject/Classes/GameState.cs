@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DodgeProject.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,21 @@ namespace DodgeProject.Classes
         {
             enemies = new Enemy[ENEMIES_COUNT];
             gifts = new Gift[GIFTS_COUNT];
+        }
+
+        //public void updateState(UserPiece user, Enemy enemies, Gift[] gifts)
+        //{
+        //    BoardGame 
+        //}
+        public void UpdateCreatures(Enemy[] enemies, Gift[] gifts )
+        {
+            this.gifts = gifts;
+            this.enemies = enemies;
+        }
+
+        public void UpdateUser(UserPiece currentUser)
+        {
+            this.user = currentUser;
         }
 
 
