@@ -28,7 +28,6 @@ namespace DodgeProject
     public sealed partial class MainPage : Page
     {
         private BoardGame boardGame;
-        private GameState gameState;
         private Rect windowRect;
         private Rectangle userRect;
         private Rectangle[] enemiesRectangles;

@@ -33,7 +33,7 @@ namespace DodgeProject.Model
 
         public BoardGame(int height, int width)
         {
-            gameState = new GameState();
+            
             this.height = height;
             this.width = width;
             keepCheckUserCollision = true;
@@ -60,6 +60,8 @@ namespace DodgeProject.Model
 
             //להבין איזה מספרים כדאי ולהתאים לגבולות
             user = new UserPiece(rnd.Next(1, width - 40), rnd.Next(1, height - 40), 40, 40);
+            gameState = new GameState();
+            gameState.User = user;
         }
 
         public bool IsWin()

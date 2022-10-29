@@ -22,10 +22,6 @@ namespace DodgeProject.Classes
             gifts = new Gift[GIFTS_COUNT];
         }
 
-        //public void updateState(UserPiece user, Enemy enemies, Gift[] gifts)
-        //{
-        //    BoardGame 
-        //}
         public void UpdateCreatures(Enemy[] enemies, Gift[] gifts )
         {
             this.gifts = gifts;
