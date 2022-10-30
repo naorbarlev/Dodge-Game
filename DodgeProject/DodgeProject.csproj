@@ -132,6 +132,7 @@
     <Compile Include="SplashScreen.xaml.cs">
       <DependentUpon>SplashScreen.xaml</DependentUpon>
     </Compile>
+    <Compile Include="System\Media.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -147,6 +148,13 @@
     <Content Include="Assets\smile.png" />
     <Content Include="Assets\play.png" />
     <Content Include="Assets\plus.png" />
+    <Content Include="Assets\SoundEffects\congratulations1.mp3" />
+    <Content Include="Assets\SoundEffects\congratulations2.mp3" />
+    <Content Include="Assets\SoundEffects\countdown.mp3" />
+    <Content Include="Assets\SoundEffects\explosion1.mp3" />
+    <Content Include="Assets\SoundEffects\explosion2.mp3" />
+    <Content Include="Assets\SoundEffects\gameover.wav" />
+    <Content Include="Assets\SoundEffects\gift.wav" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -180,6 +188,7 @@
       <Version>13.0.1</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

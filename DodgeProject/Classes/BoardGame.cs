@@ -60,8 +60,8 @@ namespace DodgeProject.Model
 
             //להבין איזה מספרים כדאי ולהתאים לגבולות
             user = new UserPiece(rnd.Next(1, width - 40), rnd.Next(1, height - 40), 40, 40);
-            gameState = new GameState();
-            gameState.User = user;
+
+            gameState = new GameState(user, enemies,gifts);
         }
 
         public bool IsWin()

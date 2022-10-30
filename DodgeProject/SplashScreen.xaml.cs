@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage.Pickers;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -32,9 +33,23 @@ namespace DodgeProject
             this.Frame.Navigate(typeof(MainPage));
         }
 
-        private void loadGaneBtn_Click(object sender, RoutedEventArgs e)
+        private async void loadGaneBtn_Click(object sender, RoutedEventArgs e)
         {
+            var picker = new Windows.Storage.Pickers.FileOpenPicker();
+            picker.ViewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail;
+            picker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.PicturesLibrary;
+            picker.FileTypeFilter.Add(".json");
 
+            Windows.Storage.StorageFile file = await picker.PickSingleFileAsync();
+            if (file != null)
+            {
+                // Application now has read/write access to the picked file
+                //this.textBlock.Text = "Picked photo: " + file.Name;
+            }
+            else
+            {
+                //this.textBlock.Text = "Operation cancelled.";
+            }
         }
     }
 }

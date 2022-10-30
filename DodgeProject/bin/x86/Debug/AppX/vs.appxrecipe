@@ -30,13 +30,13 @@
     <AppXManifest Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\bin\x86\Debug\Core\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2022-10-29T20:05:12.014</Modified>
+      <Modified>2022-10-30T09:09:41.489</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\bin\x86\Debug\DodgeProject.exe">
       <PackagePath>entrypoint\DodgeProject.exe</PackagePath>
-      <Modified>2022-10-29T20:05:11.158</Modified>
+      <Modified>2022-10-30T09:09:40.893</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\NaorBarLev\.nuget\packages\newtonsoft.json\13.0.1\lib\netstandard2.0\Newtonsoft.Json.dll">
       <PackagePath>Newtonsoft.Json.dll</PackagePath>
@@ -124,25 +124,53 @@
       <PackagePath>Assets\stop.png</PackagePath>
       <Modified>2022-10-20T10:04:21.826</Modified>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\Assets\SoundEffects\congratulations1.mp3">
+      <PackagePath>Assets\SoundEffects\congratulations1.mp3</PackagePath>
+      <Modified>2022-10-30T07:57:14.016</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\Assets\SoundEffects\congratulations2.mp3">
+      <PackagePath>Assets\SoundEffects\congratulations2.mp3</PackagePath>
+      <Modified>2022-10-30T07:57:14.023</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\Assets\SoundEffects\countdown.mp3">
+      <PackagePath>Assets\SoundEffects\countdown.mp3</PackagePath>
+      <Modified>2022-10-30T07:57:13.977</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\Assets\SoundEffects\explosion1.mp3">
+      <PackagePath>Assets\SoundEffects\explosion1.mp3</PackagePath>
+      <Modified>2022-10-30T07:57:13.996</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\Assets\SoundEffects\explosion2.mp3">
+      <PackagePath>Assets\SoundEffects\explosion2.mp3</PackagePath>
+      <Modified>2022-10-30T07:57:14.005</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\Assets\SoundEffects\gameover.wav">
+      <PackagePath>Assets\SoundEffects\gameover.wav</PackagePath>
+      <Modified>2022-10-30T08:51:29.190</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\Assets\SoundEffects\gift.wav">
+      <PackagePath>Assets\SoundEffects\gift.wav</PackagePath>
+      <Modified>2022-10-30T07:57:14.028</Modified>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\Properties\Default.rd.xml">
       <PackagePath>Properties\Default.rd.xml</PackagePath>
       <Modified>2022-10-06T07:45:47.937</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\bin\x86\Debug\DodgeProject.xr.xml">
       <PackagePath>DodgeProject.xr.xml</PackagePath>
-      <Modified>2022-10-29T19:32:16.426</Modified>
+      <Modified>2022-10-30T07:37:27.435</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\bin\x86\Debug\App.xbf">
       <PackagePath>App.xbf</PackagePath>
-      <Modified>2022-10-29T20:05:11.033</Modified>
+      <Modified>2022-10-30T09:08:33.991</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\bin\x86\Debug\MainPage.xbf">
       <PackagePath>MainPage.xbf</PackagePath>
-      <Modified>2022-10-29T20:05:11.033</Modified>
+      <Modified>2022-10-30T09:08:33.992</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\bin\x86\Debug\SplashScreen.xbf">
       <PackagePath>SplashScreen.xbf</PackagePath>
-      <Modified>2022-10-29T20:05:11.033</Modified>
+      <Modified>2022-10-30T09:08:33.992</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Windows Kits\10\UnionMetadata\10.0.19041.0\Windows.winmd">
       <PackagePath>WinMetadata\Windows.winmd</PackagePath>
@@ -150,11 +178,11 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\bin\x86\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>
-      <Modified>2022-10-29T20:05:11.283</Modified>
+      <Modified>2022-10-30T08:53:04.920</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\bin\x86\Debug\Core\DodgeProject.exe">
       <PackagePath>DodgeProject.exe</PackagePath>
-      <Modified>2022-10-29T20:05:12.014</Modified>
+      <Modified>2022-10-30T09:09:41.483</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

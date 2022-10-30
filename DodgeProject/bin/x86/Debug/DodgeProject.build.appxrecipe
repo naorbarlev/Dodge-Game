@@ -94,6 +94,27 @@
     <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\Assets\stop.png">
       <PackagePath>Assets\stop.png</PackagePath>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\Assets\SoundEffects\congratulations1.mp3">
+      <PackagePath>Assets\SoundEffects\congratulations1.mp3</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\Assets\SoundEffects\congratulations2.mp3">
+      <PackagePath>Assets\SoundEffects\congratulations2.mp3</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\Assets\SoundEffects\countdown.mp3">
+      <PackagePath>Assets\SoundEffects\countdown.mp3</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\Assets\SoundEffects\explosion1.mp3">
+      <PackagePath>Assets\SoundEffects\explosion1.mp3</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\Assets\SoundEffects\explosion2.mp3">
+      <PackagePath>Assets\SoundEffects\explosion2.mp3</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\Assets\SoundEffects\gameover.wav">
+      <PackagePath>Assets\SoundEffects\gameover.wav</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\Assets\SoundEffects\gift.wav">
+      <PackagePath>Assets\SoundEffects\gift.wav</PackagePath>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\NaorBarLev\Desktop\נאור\קורס פיתוח - מכללת סלע\DODGE project\DodgeProject\DodgeProject\Properties\Default.rd.xml">
       <PackagePath>Properties\Default.rd.xml</PackagePath>
     </AppxPackagedFile>

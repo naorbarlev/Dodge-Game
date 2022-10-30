@@ -21,7 +21,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.IO;
 using System.Threading;
-
+using Windows.Media.Core;
 
 namespace DodgeProject
 {
@@ -38,7 +38,7 @@ namespace DodgeProject
         private AppBarButton restart, pause, play, saveAs, stop;
         private const double CMD_BAR_HEIGHT = 70;
 
-
+        private MediaElement collisionMediaElment, congratsMediaElment, giftMediaElment, countDownMediaElement, gameOverMediaElement;
 
         public MainPage()
         {
@@ -48,6 +48,7 @@ namespace DodgeProject
             createCmdBar();
             createTimer(RUNNING_GAME_TIMER);
             EventHandlers();
+            
         }
 
        public void EventHandlers()
@@ -69,6 +70,8 @@ namespace DodgeProject
 
         public void StartGame()
         {
+            createMediaElements();
+            
 
             windowRect = ApplicationView.GetForCurrentView().VisibleBounds;
 
@@ -84,6 +87,7 @@ namespace DodgeProject
 
             giftsRectangles = new Rectangle[boardGame.Gifts.Length];
             updateLifes();
+            
         }
 
         private void CoreWindow_KeyDown(CoreWindow sender, KeyEventArgs args)
@@ -154,6 +158,7 @@ namespace DodgeProject
                 {
                     if (boardGame.EnemiesColiision(boardGame.Enemies[i]))
                     {
+                        collisionMediaElment.Play();
                         enemiesRectangles[i].Visibility = Visibility.Collapsed;
                         mainCanvas.Children.Remove(enemiesRectangles[i]);
                         boardGame.Enemies[i].IsAlive = false;
@@ -165,6 +170,7 @@ namespace DodgeProject
                 {
                     if (giftsRectangles[i] != null && boardGame.userHeartCollision(boardGame.Gifts[i]))
                     {
+                        giftMediaElment.Play();
                         boardGame.Gifts[i].IsUsed = true;
                         giftsRectangles[i].Visibility = Visibility.Collapsed;
                         mainCanvas.Children.Remove(giftsRectangles[i]);
@@ -200,12 +206,14 @@ namespace DodgeProject
 
         private void win()
         {
+            congratsMediaElment.Play();
             boardGame.IsGameRunning = false;
             runningGameTimer.Stop();
             myMessageDilaogAsync("Do you want to play again?", "You Won!");
         }
         private void lost()
         {
+            gameOverMediaElement.Play();
             boardGame.IsGameRunning = false;
             runningGameTimer.Stop();
             myMessageDilaogAsync("Do you want to play again?", "You Lost :(");
@@ -464,8 +472,65 @@ namespace DodgeProject
 
         }
 
+        private async void createMediaElements()
+        {
+            //collisionMediaElment.Volume = 0.4;
+            //collisionMediaElment.Margin = new Thickness(0);
+            //collisionMediaElment.AutoPlay = false;
+            //collisionMediaElment.IsLooping = false;
+            //mainCanvas.Children.Add(collisionMediaElment);
 
-       
+            collisionMediaElment = new MediaElement();
+            collisionMediaElment.IsLooping = false;
+            collisionMediaElment.AutoPlay = false;
+            collisionMediaElment.Volume = 0.4;
+            Windows.Storage.StorageFolder folder = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync("Assets\\SoundEffects");
+            Windows.Storage.StorageFile file = await folder.GetFileAsync("explosion1.mp3");
+            var stream = await file.OpenAsync(Windows.Storage.FileAccessMode.Read);
+            collisionMediaElment.SetSource(stream, file.ContentType);
+
+
+            congratsMediaElment = new MediaElement();
+            congratsMediaElment.IsLooping = false;
+            congratsMediaElment.AutoPlay = false;
+            congratsMediaElment.Volume = 0.4;
+            folder = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync("Assets\\SoundEffects");
+            file = await folder.GetFileAsync("congratulations1.mp3");
+            stream = await file.OpenAsync(Windows.Storage.FileAccessMode.Read);
+            congratsMediaElment.SetSource(stream, file.ContentType);
+            
+            giftMediaElment = new MediaElement();
+            giftMediaElment.IsLooping = false;
+            giftMediaElment.AutoPlay = false;
+            giftMediaElment.Volume = 0.4;
+            folder = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync("Assets\\SoundEffects");
+            file = await folder.GetFileAsync("gift.wav");
+            stream = await file.OpenAsync(Windows.Storage.FileAccessMode.Read);
+            giftMediaElment.SetSource(stream, file.ContentType);
+            
+
+            countDownMediaElement = new MediaElement();
+            countDownMediaElement.IsLooping = false;
+            countDownMediaElement.AutoPlay = false;
+            countDownMediaElement.Volume = 0.4;
+            folder = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync("Assets\\SoundEffects");
+            file = await folder.GetFileAsync("countdown.mp3");
+            stream = await file.OpenAsync(Windows.Storage.FileAccessMode.Read);
+            countDownMediaElement.SetSource(stream, file.ContentType);
+            
+
+            gameOverMediaElement = new MediaElement();
+            gameOverMediaElement.IsLooping = false;
+            gameOverMediaElement.AutoPlay = false;
+            gameOverMediaElement.Volume = 0.4;
+            folder = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync("Assets\\SoundEffects");
+            file = await folder.GetFileAsync("gameover.wav");
+            stream = await file.OpenAsync(Windows.Storage.FileAccessMode.Read);
+            gameOverMediaElement.SetSource(stream, file.ContentType);
+            
+
+        }
+
 
     }
 }

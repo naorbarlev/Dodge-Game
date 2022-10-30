@@ -16,10 +16,11 @@ namespace DodgeProject.Classes
         private UserPiece user;
         private Gift[] gifts;
 
-        public GameState()
+        public GameState(UserPiece user, Enemy [] enemies, Gift[] gifts)
         {
-            enemies = new Enemy[ENEMIES_COUNT];
-            gifts = new Gift[GIFTS_COUNT];
+            this.user = user;
+            this.enemies = enemies;
+            this.gifts = gifts;
         }
 
         public void UpdateCreatures(Enemy[] enemies, Gift[] gifts )

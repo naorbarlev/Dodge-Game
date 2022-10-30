@@ -21,6 +21,38 @@
         </TextBlock>
         <Button x:Name="startNewGaneBtn" Content="Start New Game" Margin="0,452,0,0" VerticalAlignment="Top" Width="391" HorizontalAlignment="Center" FontFamily="Aharoni" FontSize="40" Foreground="#FF0C0000" Click="startNewGaneBtn_Click"/>
         <Button x:Name="loadGaneBtn" Content="Load A Game" Margin="0,532,0,0" VerticalAlignment="Top" Width="391" HorizontalAlignment="Center" FontFamily="Aharoni" FontSize="40" Foreground="#FF060000" Click="loadGaneBtn_Click"/>
+        <!--<Image Height="100" Width="100" Margin="118,130,1282,770" Source="ms-appx:///Assets/goast.png"/>
+        <Image Margin="1212,289,218,637" Source="/Assets/goast.png" RenderTransformOrigin="1.486,0.696"/>
+        <Image Height="100" Width="100" Margin="326,87,1074,813" Source="/Assets/goast.png"/>
+        <Image Height="100" Width="100" Margin="118,130,1282,770" Source="/Assets/goast.png"/>
+        <Image Height="100" Width="100" Margin="118,130,1282,770" Source="/Assets/goast.png"/>
+        <Image Height="100" Width="100" Margin="118,130,1282,770" Source="/Assets/goast.png"/>
+        <Image Height="100" Width="100" Margin="118,130,1282,770" Source="/Assets/goast.png"/>
+        <Image Height="100" Width="100" Margin="118,130,1282,770" Source="/Assets/goast.png"/>
+        <Image Height="100" Width="100" Margin="118,130,1282,770" Source="/Assets/goast.png"/>
+        <Image Height="100" Width="100" Margin="118,130,1282,770" Source="/Assets/goast.png"/>
+        <Image Height="100" Width="100" Margin="118,130,1282,770" Source="/Assets/goast.png"/>
+        <Image Height="100" Width="100" Margin="118,130,1282,770" Source="/Assets/goast.png"/>
+        <Image Height="100" Width="100" Margin="118,130,1282,770" Source="/Assets/goast.png"/>
+        <Image Margin="484,701,904,175" Source="/Assets/goast.png"/>
+        <Image Height="100" Width="100" Margin="1182,87,218,813" Source="/Assets/goast.png"/>
+        <Image Margin="196,386,1218,536" Source="/Assets/goast.png" RenderTransformOrigin="1.426,3.324"/>
+        <Image Margin="1134,711,244,185" Source="/Assets/goast.png" RenderTransformOrigin="1.866,4.424"/>
+        <Image Margin="74,592,1282,270" Source="/Assets/goast.png"/>
+        <Image Height="100" Width="100" Margin="1084,493,316,407" Source="/Assets/goast.png"/>
+        <Image Height="100" Width="100" Margin="1348,856,52,44" Source="/Assets/goast.png"/>
+        <Image Margin="1312,598,102,324" Source="/Assets/goast.png" RenderTransformOrigin="1.426,3.324"/>
+        <Image Height="100" Width="100" Margin="96,856,1304,44" Source="/Assets/goast.png"/>
+        <Image Margin="376,552,1054,374" Source="/Assets/goast.png" RenderTransformOrigin="1.486,0.696"/>
+        <Image Height="100" Width="100" Margin="812,728,588,172" Source="/Assets/goast.png"/>
+        <Image Margin="596,44,834,882" Source="/Assets/goast.png" RenderTransformOrigin="1.486,0.696"/>
+        <Image Height="100" Width="100" Margin="916,44,484,856" Source="/Assets/goast.png"/>
+        <Image Margin="1312,442,118,484" Source="/Assets/goast.png" RenderTransformOrigin="1.486,0.696"/>
+        <Image Margin="1348,228,66,694" Source="/Assets/goast.png" RenderTransformOrigin="1.426,3.324"/>
+        <Image Margin="356,856,1074,70" Source="/Assets/goast.png" RenderTransformOrigin="1.486,0.696"/>
+        <Image Margin="707,873,707,49" Source="/Assets/goast.png" RenderTransformOrigin="1.426,3.324"/>
+        <Image Margin="348,349,1066,573" Source="/Assets/goast.png" RenderTransformOrigin="1.426,3.324"/>
+        <Image Margin="1091,891,323,31" Source="/Assets/goast.png" RenderTransformOrigin="1.426,3.324"/>-->
 
     </Grid>
 </Page>
