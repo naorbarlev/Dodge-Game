@@ -22,6 +22,7 @@ using Newtonsoft.Json;
 using System.IO;
 using System.Threading;
 using Windows.Media.Core;
+using Windows.UI.Xaml.Navigation;
 
 namespace DodgeProject
 {
@@ -37,6 +38,7 @@ namespace DodgeProject
         private CommandBar cmdBar;
         private AppBarButton restart, pause, play, saveAs, stop;
         private const double CMD_BAR_HEIGHT = 70;
+        private string loadedGame;
 
         private MediaElement collisionMediaElment, congratsMediaElment, giftMediaElment, countDownMediaElement, gameOverMediaElement;
 
@@ -48,9 +50,18 @@ namespace DodgeProject
             createCmdBar();
             createTimer(RUNNING_GAME_TIMER);
             EventHandlers();
-            
         }
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            if (!String.IsNullOrEmpty((string)e.Parameter))
+            {
+                loadedGame = (string)e.Parameter;
+                //myMessageDilaogAsync(loadedGame, loadedGame);
+            }
 
+        }
+        
        public void EventHandlers()
         {
             //event handlers
@@ -71,7 +82,6 @@ namespace DodgeProject
         public void StartGame()
         {
             createMediaElements();
-            
 
             windowRect = ApplicationView.GetForCurrentView().VisibleBounds;
 
@@ -158,7 +168,6 @@ namespace DodgeProject
                 {
                     if (boardGame.EnemiesColiision(boardGame.Enemies[i]))
                     {
-                        collisionMediaElment.Play();
                         enemiesRectangles[i].Visibility = Visibility.Collapsed;
                         mainCanvas.Children.Remove(enemiesRectangles[i]);
                         boardGame.Enemies[i].IsAlive = false;
@@ -170,7 +179,6 @@ namespace DodgeProject
                 {
                     if (giftsRectangles[i] != null && boardGame.userHeartCollision(boardGame.Gifts[i]))
                     {
-                        giftMediaElment.Play();
                         boardGame.Gifts[i].IsUsed = true;
                         giftsRectangles[i].Visibility = Visibility.Collapsed;
                         mainCanvas.Children.Remove(giftsRectangles[i]);
@@ -206,14 +214,12 @@ namespace DodgeProject
 
         private void win()
         {
-            congratsMediaElment.Play();
             boardGame.IsGameRunning = false;
             runningGameTimer.Stop();
             myMessageDilaogAsync("Do you want to play again?", "You Won!");
         }
         private void lost()
         {
-            gameOverMediaElement.Play();
             boardGame.IsGameRunning = false;
             runningGameTimer.Stop();
             myMessageDilaogAsync("Do you want to play again?", "You Lost :(");
@@ -474,12 +480,6 @@ namespace DodgeProject
 
         private async void createMediaElements()
         {
-            //collisionMediaElment.Volume = 0.4;
-            //collisionMediaElment.Margin = new Thickness(0);
-            //collisionMediaElment.AutoPlay = false;
-            //collisionMediaElment.IsLooping = false;
-            //mainCanvas.Children.Add(collisionMediaElment);
-
             collisionMediaElment = new MediaElement();
             collisionMediaElment.IsLooping = false;
             collisionMediaElment.AutoPlay = false;
