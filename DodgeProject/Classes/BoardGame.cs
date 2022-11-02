@@ -63,6 +63,35 @@ namespace DodgeProject.Model
 
             gameState = new GameState(user, enemies,gifts);
         }
+        public BoardGame(UserPiece loadedUser, Enemy[]loadedEnemies, Gift[] loadedGifts, int height, int width)
+        {
+
+            this.height = height;
+            this.width = width;
+            keepCheckUserCollision = true;
+
+            enemies = new Enemy[ENEMIES_COUNT];
+            gifts = new Gift[GIFTS_COUNT];
+
+            int size; //הגרלת מספר שיצור איוב ריבועי ולא מלבני
+
+            for (int i = 0; i < GIFTS_COUNT; i++)
+            {
+                gifts[i] = new Gift(loadedGifts[i].X, loadedGifts[i].Y, loadedGifts[i].Height, loadedGifts[i].Width);
+                gifts[i].IsUsed = loadedGifts[i].IsUsed;
+                gifts[i].Index = loadedGifts[i].Index;
+            }
+
+            for (int i = 0; i < ENEMIES_COUNT; i++)
+            {
+                enemies[i] = new Enemy(loadedEnemies[i].X, loadedEnemies[i].Y, loadedEnemies[i].Height, loadedEnemies[i].Width);
+                enemies[i].Index = loadedEnemies[i].Index;
+            }
+
+            user = new UserPiece(loadedUser.X, loadedUser.Y, 40, 40);
+
+            gameState = new GameState(loadedUser, loadedEnemies, loadedGifts);
+        }
 
         public bool IsWin()
         {

@@ -46,19 +46,31 @@ namespace DodgeProject
         {
             this.InitializeComponent();
 
+            Loaded += MainPage_Loaded;
+
+            //StartGame();
+            //createCmdBar();
+            //createTimer(RUNNING_GAME_TIMER);
+            //EventHandlers();
+        }
+
+        private void MainPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            MessageDilaogAsync("loaded", "loaded");
             StartGame();
             createCmdBar();
             createTimer(RUNNING_GAME_TIMER);
             EventHandlers();
         }
+
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            base.OnNavigatedTo(e);
             if (!String.IsNullOrEmpty((string)e.Parameter))
             {
                 loadedGame = (string)e.Parameter;
-                //myMessageDilaogAsync(loadedGame, loadedGame);
+                MessageDilaogAsync(loadedGame, loadedGame);
             }
+            base.OnNavigatedTo(e);
 
         }
         
@@ -85,7 +97,19 @@ namespace DodgeProject
 
             windowRect = ApplicationView.GetForCurrentView().VisibleBounds;
 
-            boardGame = new BoardGame((int)windowRect.Height, (int)windowRect.Width);
+            if(String.IsNullOrEmpty(loadedGame))
+            {
+                boardGame = new BoardGame((int)windowRect.Height, (int)windowRect.Width);
+                MessageDilaogAsync("test", "test");
+
+            }
+            else
+            {
+                //read json and call for the new ctor
+                boardGame = new BoardGame((int)windowRect.Height, (int)windowRect.Width);
+                MessageDilaogAsync("test1", "test1");
+
+            }
 
             userRect = CreateUserPiece(boardGame.User);
 
@@ -99,6 +123,7 @@ namespace DodgeProject
             updateLifes();
             
         }
+
 
         private void CoreWindow_KeyDown(CoreWindow sender, KeyEventArgs args)
         {
@@ -214,15 +239,17 @@ namespace DodgeProject
 
         private void win()
         {
+            loadedGame = "";
             boardGame.IsGameRunning = false;
             runningGameTimer.Stop();
-            myMessageDilaogAsync("Do you want to play again?", "You Won!");
+            EndGameMessageDilaogAsync("Do you want to play again?", "You Won!");
         }
         private void lost()
         {
+            loadedGame = "";
             boardGame.IsGameRunning = false;
             runningGameTimer.Stop();
-            myMessageDilaogAsync("Do you want to play again?", "You Lost :(");
+            EndGameMessageDilaogAsync("Do you want to play again?", "You Lost :(");
         }
 
         public void updateLifes()
@@ -230,7 +257,7 @@ namespace DodgeProject
             lifesCountTxt.Text = $"Life: {(boardGame.User.Life)}";
         }
 
-        public async Task myMessageDilaogAsync(string msg, string res)
+        public async Task EndGameMessageDilaogAsync(string msg, string res)
         {
             MessageDialog dialog = new MessageDialog(msg, res);
             dialog.Commands.Add(new UICommand("Yes", null));
@@ -248,6 +275,12 @@ namespace DodgeProject
                 this.Frame.Navigate(typeof(SplashScreen));
             }
         
+        }
+
+        public async Task MessageDilaogAsync(string msg, string res)
+        {
+            MessageDialog dialog = new MessageDialog(msg, res);
+            var cmd = await dialog.ShowAsync();
         }
 
         private void createCmdBar()
@@ -370,15 +403,7 @@ namespace DodgeProject
         private async void SaveAs_Click(object sender, RoutedEventArgs e)
         {
             boardGame.IsGameRunning = false;
-            //File.WriteAllText(@"C:\Users\NaorBarLev\Desktop\test1.json", JsonConvert.SerializeObject(boardGame.GameState));
-            //writeGameStateToFile(boardGame.GameState, @"C:\Users\NaorBarLev\Desktop\test.json");
             var jsonGS = JsonConvert.SerializeObject(boardGame.GameState);
-            //File.WriteAllText("C:\\Users\\NaorBarLev\\Desktop\\test1.json", jsonGS);
-
-
-            //myMessageDilaogAsync(jsonGS, "JSON");
-            //File.WriteAllText(@"C:\Users\NaorBarLev\Desktop\test.json", jsonGS);
-
             FileSavePicker savePicker = new FileSavePicker();
             savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
             savePicker.FileTypeChoices.Add("JSON file", new List<string>() { ".json" });
@@ -386,28 +411,23 @@ namespace DodgeProject
             Windows.Storage.StorageFile file = await savePicker.PickSaveFileAsync();
             if (file != null)
             {
-                // Prevent updates to the remote version of the file until
-                // we finish making changes and call CompleteUpdatesAsync.
                 Windows.Storage.CachedFileManager.DeferUpdates(file);
                 // write to file
                 await Windows.Storage.FileIO.WriteTextAsync(file, jsonGS);
-                // Let Windows know that we're finished changing the file so
-                // the other app can update the remote version of the file.
-                // Completing updates may require Windows to ask for user input.
                 Windows.Storage.Provider.FileUpdateStatus status =
                     await Windows.Storage.CachedFileManager.CompleteUpdatesAsync(file);
                 if (status == Windows.Storage.Provider.FileUpdateStatus.Complete)
                 {
-                    myMessageDilaogAsync("save", "save");
+                    EndGameMessageDilaogAsync("save", "save");
                 }
                 else
                 {
-                    myMessageDilaogAsync("not save", "not save");
+                    EndGameMessageDilaogAsync("not save", "not save");
                 }
             }
             else
             {
-                myMessageDilaogAsync("cancle", "cancle");
+                EndGameMessageDilaogAsync("cancle", "cancle");
             }
         }
         public static void writeGameStateToFile(GameState gameState, string fileName)
