@@ -38,7 +38,7 @@ namespace DodgeProject
         private CommandBar cmdBar;
         private AppBarButton restart, pause, play, saveAs, stop;
         private const double CMD_BAR_HEIGHT = 70;
-        private string loadedGame;
+        private Windows.Storage.StorageFile loadedGameFile;
 
         private MediaElement collisionMediaElment, congratsMediaElment, giftMediaElment, countDownMediaElement, gameOverMediaElement;
 
@@ -46,38 +46,35 @@ namespace DodgeProject
         {
             this.InitializeComponent();
 
+            //fires when page loaded
             Loaded += MainPage_Loaded;
-
-            //StartGame();
-            //createCmdBar();
-            //createTimer(RUNNING_GAME_TIMER);
-            //EventHandlers();
         }
 
         private void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
-            MessageDilaogAsync("loaded", "loaded");
             StartGame();
             createCmdBar();
             createTimer(RUNNING_GAME_TIMER);
             EventHandlers();
+
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (!String.IsNullOrEmpty((string)e.Parameter))
+            Windows.Storage.StorageFile file = (Windows.Storage.StorageFile) e.Parameter;
+            if (file != null)
             {
-                loadedGame = (string)e.Parameter;
-                MessageDilaogAsync(loadedGame, loadedGame);
+                loadedGameFile = file;
             }
-            base.OnNavigatedTo(e);
+            //base.OnNavigatedTo(e);
 
         }
         
        public void EventHandlers()
         {
-            //event handlers
+            
             Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
+            
             DelayAction(2000, new Action(() => { 
 
                 runningGameTimer.Tick += RunnungGameTimer_Tick;
@@ -91,37 +88,37 @@ namespace DodgeProject
             stop.Click += Stop_Click;
         }
 
-        public void StartGame()
+        public async void StartGame()
         {
             createMediaElements();
 
             windowRect = ApplicationView.GetForCurrentView().VisibleBounds;
 
-            if(String.IsNullOrEmpty(loadedGame))
+            if(loadedGameFile == null)
             {
                 boardGame = new BoardGame((int)windowRect.Height, (int)windowRect.Width);
-                MessageDilaogAsync("test", "test");
-
             }
             else
             {
-                //read json and call for the new ctor
-                boardGame = new BoardGame((int)windowRect.Height, (int)windowRect.Width);
-                MessageDilaogAsync("test1", "test1");
-
+                string jsonGameState = await Windows.Storage.FileIO.ReadTextAsync(loadedGameFile);
+                GameState deserializedGameState = JsonConvert.DeserializeObject<GameState>(jsonGameState);
+                boardGame = new BoardGame(deserializedGameState.User, deserializedGameState.Enemies, deserializedGameState.Gifts, (int)windowRect.Height, (int)windowRect.Width);
             }
 
+            //create user rect and puts on canvas
             userRect = CreateUserPiece(boardGame.User);
 
+            //create enemies rect and puts on canvas
             enemiesRectangles = new Rectangle[boardGame.Enemies.Length];
             for (int i = 0; i < boardGame.Enemies.Length; i++)
             {
                 enemiesRectangles[i] = CreateEnemy(boardGame.Enemies[i]);
+                if(boardGame.Enemies[i].IsAlive == false)
+                    enemiesRectangles[i].Visibility = Visibility.Collapsed;
             }
-
+            //create gifts rect
             giftsRectangles = new Rectangle[boardGame.Gifts.Length];
             updateLifes();
-            
         }
 
 
@@ -189,6 +186,7 @@ namespace DodgeProject
                     }
                 }
 
+                //handling enemies collision 
                 for (int i = 0; i < boardGame.Enemies.Length; i++)
                 {
                     if (boardGame.EnemiesColiision(boardGame.Enemies[i]))
@@ -199,7 +197,7 @@ namespace DodgeProject
                     }
                 }
 
-                //התנגשות בלב
+                //handling heart collision 
                 for (int i = 0; i < boardGame.Gifts.Length; i++)
                 {
                     if (giftsRectangles[i] != null && boardGame.userHeartCollision(boardGame.Gifts[i]))
@@ -209,6 +207,7 @@ namespace DodgeProject
                         mainCanvas.Children.Remove(giftsRectangles[i]);
                     }
                 }
+
                 updateLifes();
                 boardGame.GameState.UpdateCreatures(boardGame.Enemies, boardGame.Gifts);
 
@@ -239,14 +238,14 @@ namespace DodgeProject
 
         private void win()
         {
-            loadedGame = "";
+            loadedGameFile = null;
             boardGame.IsGameRunning = false;
             runningGameTimer.Stop();
             EndGameMessageDilaogAsync("Do you want to play again?", "You Won!");
         }
         private void lost()
         {
-            loadedGame = "";
+            loadedGameFile = null;
             boardGame.IsGameRunning = false;
             runningGameTimer.Stop();
             EndGameMessageDilaogAsync("Do you want to play again?", "You Lost :(");
@@ -365,7 +364,8 @@ namespace DodgeProject
 
 
             Canvas.SetLeft(cmdBar, 0);
-            Canvas.SetTop(cmdBar, boardGame.Height-40);
+            Canvas.SetTop(cmdBar, 0);
+            //Canvas.SetTop(cmdBar, boardGame.Height-40);
             mainCanvas.Children.Add(cmdBar);
             
         }
@@ -409,6 +409,7 @@ namespace DodgeProject
             savePicker.FileTypeChoices.Add("JSON file", new List<string>() { ".json" });
             savePicker.SuggestedFileName = "MyGame";
             Windows.Storage.StorageFile file = await savePicker.PickSaveFileAsync();
+
             if (file != null)
             {
                 Windows.Storage.CachedFileManager.DeferUpdates(file);
@@ -416,6 +417,7 @@ namespace DodgeProject
                 await Windows.Storage.FileIO.WriteTextAsync(file, jsonGS);
                 Windows.Storage.Provider.FileUpdateStatus status =
                     await Windows.Storage.CachedFileManager.CompleteUpdatesAsync(file);
+
                 if (status == Windows.Storage.Provider.FileUpdateStatus.Complete)
                 {
                     EndGameMessageDilaogAsync("save", "save");
@@ -430,11 +432,7 @@ namespace DodgeProject
                 EndGameMessageDilaogAsync("cancle", "cancle");
             }
         }
-        public static void writeGameStateToFile(GameState gameState, string fileName)
-        {
-            var jsonString = JsonConvert.SerializeObject(gameState, Formatting.Indented);
-            File.WriteAllText(fileName, jsonString);
-        }
+      
         public static void DelayAction(int millisecond, Action action)
         {
             var timer = new DispatcherTimer();

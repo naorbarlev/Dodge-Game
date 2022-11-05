@@ -43,13 +43,7 @@ namespace DodgeProject
             Windows.Storage.StorageFile file = await picker.PickSingleFileAsync();
             if (file != null)
             {
-                this.Frame.Navigate(typeof(MainPage), file.Path);
-                // Application now has read/write access to the picked file
-                //this.textBlock.Text = "Picked photo: " + file.Name;
-            }
-            else
-            {
-                //this.textBlock.Text = "Operation cancelled.";
+                this.Frame.Navigate(typeof(MainPage), file);
             }
         }
     }

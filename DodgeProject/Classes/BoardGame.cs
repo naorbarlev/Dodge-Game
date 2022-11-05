@@ -18,16 +18,11 @@ namespace DodgeProject.Model
         private Gift[] gifts;
         private GameState gameState;
 
-        
-
         private int width;
         private int height;
         private double enemySpeed;
         private bool isGameRunning;
         private bool keepCheckUserCollision;
-
-       
-
 
         Random rnd = new Random();
 
@@ -36,12 +31,12 @@ namespace DodgeProject.Model
             
             this.height = height;
             this.width = width;
-            keepCheckUserCollision = true;
+            keepCheckUserCollision = true; // used for delying 500ms user collision after a user collision
 
             enemies = new Enemy[ENEMIES_COUNT];
             gifts = new Gift[GIFTS_COUNT];
 
-            int size; //הגרלת מספר שיצור איוב ריבועי ולא מלבני
+            int size; // random number that will be used for H & W to create square
 
             for (int i = 0; i < GIFTS_COUNT; i++)
             {
@@ -58,7 +53,6 @@ namespace DodgeProject.Model
                 enemies[i].Index = i;
             }
 
-            //להבין איזה מספרים כדאי ולהתאים לגבולות
             user = new UserPiece(rnd.Next(1, width - 40), rnd.Next(1, height - 40), 40, 40);
 
             gameState = new GameState(user, enemies,gifts);
@@ -68,34 +62,38 @@ namespace DodgeProject.Model
 
             this.height = height;
             this.width = width;
-            keepCheckUserCollision = true;
+            keepCheckUserCollision = true; // used for delying 500ms user collision after a user collision
 
             enemies = new Enemy[ENEMIES_COUNT];
             gifts = new Gift[GIFTS_COUNT];
 
-            int size; //הגרלת מספר שיצור איוב ריבועי ולא מלבני
+            int size; // random number that will be used for H & W to create square
 
             for (int i = 0; i < GIFTS_COUNT; i++)
             {
                 gifts[i] = new Gift(loadedGifts[i].X, loadedGifts[i].Y, loadedGifts[i].Height, loadedGifts[i].Width);
                 gifts[i].IsUsed = loadedGifts[i].IsUsed;
                 gifts[i].Index = loadedGifts[i].Index;
+                gifts[i].Life = loadedGifts[i].Life;
             }
 
             for (int i = 0; i < ENEMIES_COUNT; i++)
             {
                 enemies[i] = new Enemy(loadedEnemies[i].X, loadedEnemies[i].Y, loadedEnemies[i].Height, loadedEnemies[i].Width);
                 enemies[i].Index = loadedEnemies[i].Index;
+                enemies[i].IsAlive = loadedEnemies[i].IsAlive;
+                enemies[i].Speed = loadedEnemies[i].Speed;
             }
 
             user = new UserPiece(loadedUser.X, loadedUser.Y, 40, 40);
+            user.Life = loadedUser.Life; 
 
             gameState = new GameState(loadedUser, loadedEnemies, loadedGifts);
         }
 
         public bool IsWin()
         {
-            int aliveEnemies = 0;
+            int aliveEnemies = 0; //counter for enemies that on canvas
             if (user.Life <= 0)
             {
                 return false;
@@ -108,6 +106,7 @@ namespace DodgeProject.Model
                     aliveEnemies++;
                 }
             }
+            //return true if there is one or less enenies on canvas
             return aliveEnemies < 2;
         }
 
@@ -160,25 +159,6 @@ namespace DodgeProject.Model
                 enemy.Y += enemy.Speed;
             }
 
-            //if (enemy.X > user.X)
-            //{
-            //    enemy.X -= enemy.Speed;
-            //}
-            //else
-            //    if (enemy.X < user.X)
-            //{
-            //    enemy.X += enemy.Speed;
-            //}
-
-            //if (enemy.Y > user.Y)
-            //{
-            //    enemy.Y -= enemy.Speed;
-            //}
-            //else
-            //    if (enemy.Y < user.Y)
-            //{
-            //    enemy.Y += enemy.Speed;
-            //}
         }
        
         public bool userCollision()

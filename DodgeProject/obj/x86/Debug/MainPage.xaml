@@ -10,7 +10,7 @@
 
 
     <Canvas x:ConnectionId='2' Name="mainCanvas" Background="LightGray" >
-        <TextBlock x:ConnectionId='3' x:Name="lifesCountTxt" Canvas.Left="24" Canvas.Top="25" Text="Life:" TextWrapping="Wrap"  FontWeight="Bold" FontSize="30" FontFamily="Agency FB" Foreground="#FF4782DA"/>
+        <TextBlock x:ConnectionId='3' x:Name="lifesCountTxt" Canvas.Left="5" Canvas.Top="40" Text="Life:" TextWrapping="Wrap"  FontWeight="Bold" FontSize="30" FontFamily="Agency FB" Foreground="#FF4782DA"/>
     </Canvas>
 
 

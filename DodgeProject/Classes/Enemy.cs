@@ -18,7 +18,6 @@ namespace DodgeProject
             this.ImgUrl = "ms-appx:///Assets/goast.png";
             isAlive = true;
         }
-
         public int Index
         {
             get { return index; }

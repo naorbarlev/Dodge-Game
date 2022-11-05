@@ -1,6 +1,6 @@
 ﻿namespace DodgeProject
 {
-    public abstract class Creature
+    public class Creature
     {
         private double x;
         private double y;
