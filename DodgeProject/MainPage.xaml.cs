@@ -100,9 +100,17 @@ namespace DodgeProject
             }
             else
             {
-                string jsonGameState = await Windows.Storage.FileIO.ReadTextAsync(loadedGameFile);
-                GameState deserializedGameState = JsonConvert.DeserializeObject<GameState>(jsonGameState);
-                boardGame = new BoardGame(deserializedGameState.User, deserializedGameState.Enemies, deserializedGameState.Gifts, (int)windowRect.Height, (int)windowRect.Width);
+                try
+                {
+                    string jsonGameState = await Windows.Storage.FileIO.ReadTextAsync(loadedGameFile);
+                    GameState deserializedGameState = JsonConvert.DeserializeObject<GameState>(jsonGameState);
+                    boardGame = new BoardGame(deserializedGameState.User, deserializedGameState.Enemies, deserializedGameState.Gifts, (int)windowRect.Height, (int)windowRect.Width);
+                }
+                catch (Exception)
+                {
+                    boardGame = new BoardGame((int)windowRect.Height, (int)windowRect.Width);
+                }
+
             }
 
             //create user rect and puts on canvas
@@ -276,10 +284,10 @@ namespace DodgeProject
         
         }
 
-        public async Task MessageDilaogAsync(string msg, string res)
+        public async Task MessageDilaogAsync(string msg, string title)
         {
-            MessageDialog dialog = new MessageDialog(msg, res);
-            var cmd = await dialog.ShowAsync();
+            MessageDialog dialog = new MessageDialog(msg, title);
+            await dialog.ShowAsync();
         }
 
         private void createCmdBar()
@@ -365,7 +373,6 @@ namespace DodgeProject
 
             Canvas.SetLeft(cmdBar, 0);
             Canvas.SetTop(cmdBar, 0);
-            //Canvas.SetTop(cmdBar, boardGame.Height-40);
             mainCanvas.Children.Add(cmdBar);
             
         }
@@ -420,17 +427,15 @@ namespace DodgeProject
 
                 if (status == Windows.Storage.Provider.FileUpdateStatus.Complete)
                 {
-                    EndGameMessageDilaogAsync("save", "save");
+                    MessageDilaogAsync("saved", "saved");
+                    this.Frame.Navigate(typeof(MainPage));
                 }
                 else
                 {
-                    EndGameMessageDilaogAsync("not save", "not save");
+                    MessageDilaogAsync("not saved", "not saved");
                 }
             }
-            else
-            {
-                EndGameMessageDilaogAsync("cancle", "cancle");
-            }
+            
         }
       
         public static void DelayAction(int millisecond, Action action)
